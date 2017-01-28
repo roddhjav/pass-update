@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+# pass update - Password Store Extension (https://www.passwordstore.org/)
+# Copyright (C) 2017 Alexandre PUJOL <alexandre@pujol.io>.
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Test units suite
+
+#
+# pass config
+#
+PASS="/usr/bin/pass"
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+export PASSWORD_STORE_EXTENSIONS_DIR="../"
+export PASSWORD_STORE_DIR="password-store"
+pass() {
+	${PASS} "$@"
+	return $?
+}
+pass_populate() {
+	pass init "$@"
+	pass generate Website/user1
+	pass generate Website/user2
+	return $?
+}
+
+#
+# Color Code
+#
+bold=$(tput bold)
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+blue=$(tput setaf 4)
+reset=$(tput sgr0)
+
+#
+# Commons tools and functions
+#
+title() { echo "${bold}${blue}::${reset} ${bold}${*}${reset}"; }
+alert() { echo " ${bold}${yellow}(*)${reset} ${*}"; }
+warn() { echo " ${bold}${yellow}(*) Warning :${reset} ${*}"; }
+success() { printf " ${bold}${green}(*)${reset} ${green}%s${reset}\n" "${*}"; }
+error() { echo " ${bold}${red}*${reset}${bold} Error :${reset} ${*}"; }
+die() { error "${@}" && exit 1; }
+notice() { echo; title "${@}"; echo; }
+
+#
+# Test suite config
+#
+GLOBAL_RESULT=0
+typeset -A results
+tests=(pass-update pass-update-clip pass-update-multiple pass-update-opt)
+
+#
+# GnuPG Conf.
+#
+# Note: the assumption is the test keys are unencrypted.
+export GNUPGHOME="gnupg/"
+chmod 700 "$GNUPGHOME"
+KEY1="D4C78DB7920E1E27F5416B81CC9DB947CF90C77B"
+KEY2="70BD448330ACF0653645B8F2B4DDBFF0D774A374"
+KEY3="62EBE74BE834C2EC71E6414595C4B715EB7D54A8"
+KEY4="9378267629F989A0E96677B7976DD3D6E4691410"
+KEY5="4D2AFBDE67C60F5999D143AFA6E073D439E5020C"
+
+
+#
+# Test Suite
+#
+notice "Loading test suite"
+[[ -e "$PASSWORD_STORE_DIR" ]] || pass_populate "$KEY1"
+
+pass_update() {
+	notice "Test - updating password."
+	pass update Website/user1 --force
+	test $? = 0 && results[pass-update]=SUCCESS
+
+	notice "Test - updating password with clip."
+	pass update Website/user2 --clip --force
+	test $? = 0 && results[pass-update-clip]=SUCCESS
+	
+	notice "Test - updating more than one password"
+	pass update Website/user1 Website/user2 --force
+	test $? = 0 && results[pass-update-multiple]=SUCCESS
+	
+	notice "Test - Bad options"
+	res=0
+	pass update
+	test $? = 1 || res=1
+	pass update Website/user
+	test $? = 1 || res=1
+	pass update --unknown-option
+	test $? = 1 || res=1
+	pass update --help
+	test $? = 0 || res=1
+	test $res = 0 && results[pass-update-opt]=SUCCESS
+}
+
+pass_update
+
+
+#
+# Units Test Results
+#
+notice "Test Results"
+for t in ${tests[@]}; do
+	res=${results[$t]:-FAIL}
+	[[ "$res" == "SUCCESS" ]] || GLOBAL_RESULT=1
+    success "$t  $res"
+done
+
+success "Done. You can remove temporary leftovers from $PASSWORD_STORE_DIR/"
+
+unset PASSWORD_STORE_ENABLE_EXTENSIONS
+unset PASSWORD_STORE_EXTENSIONS_DIR
+unset PASSWORD_STORE_DIR
+unset PASSWORD_STORE_SIGNING_KEY
+
+[ $GLOBAL_RESULT = 0 ] && {
+	success "Tests passed"
+} || {
+	error "Tests failded"
+}
+
+exit $GLOBAL_RESULT
