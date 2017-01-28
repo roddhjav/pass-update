@@ -1,7 +1,9 @@
-# pass update
+# pass update 
 
 A [pass](https://www.passwordstore.org/) extension that provides a convenient
 solution to update an existing password.
+
+[![build status](https://gitlab.com/roddhjav/pass-update/badges/master/build.svg)](https://gitlab.com/roddhjav/pass-update/commits/master)
 
 ## Usage
 
