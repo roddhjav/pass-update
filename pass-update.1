@@ -1,0 +1,57 @@
+.TH pass-update 1 "January 2017" "pass-update"
+
+.SH NAME
+pass update - A \fBpass\fP(1) extension that provides a convenient solution to
+update an existing password.
+
+.SH SYNOPSIS
+\fBpass update\fP [\fI--clip\fP,\fI-c\fP] [\fI--force\fP,\fI-f\fP] [\fI--help\fP,\fI-h\fP] \fIpass-names...\fP
+
+.SH DESCRIPTION
+\fBpass update\fP Provides an interactive solution to update a set of passwords.
+It prints the old password and wait for the user before generating a new one.
+Both old and newly generated password can optionally be written on the clipboard
+using the \fI--clip\fP option. The \fI--force\fP option allows you to update the
+password immediately. Multiple \fIpass-names\fP can be given in order to update
+multiple password.
+
+.SH OPTIONS
+
+.TP
+\fB\-c\fB, \-\-clip\fR
+Put password in the clipboard.
+
+.TP
+\fB\-f\fB, \-\-force\fR
+Force to update and do not wait for user instruction.
+
+.TP
+\fB\-h\fB, \-\-help\fR
+Show usage message.
+
+.SH SEE ALSO
+.BR pass(1),
+.BR pass-import(1),
+
+
+.SH AUTHORS
+.B pass update
+was written by
+.MT alexandre@pujol.io
+Alexandre Pujol
+.ME .
+
+
+.SH COPYING
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
