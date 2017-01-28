@@ -56,13 +56,21 @@ success() { printf " ${bold}${green}(*)${reset} ${green}%s${reset}\n" "${*}"; }
 error() { echo " ${bold}${red}*${reset}${bold} Error :${reset} ${*}"; }
 die() { error "${@}" && exit 1; }
 notice() { echo; title "${@}"; echo; }
+test_xclip() { 
+	echo "$RANDOM" | xclip -i &> /dev/null
+	[ $? = 0 ] || XCLIP=1
+}
 
 #
 # Test suite config
 #
 GLOBAL_RESULT=0
+XCLIP=0
+test_xclip # xclip needs a X server, disable xclip tests when running on a server
+
 typeset -A results
-tests=(pass-update pass-update-clip pass-update-multiple pass-update-opt)
+tests=(pass-update pass-update-multiple pass-update-opt)
+[ $XCLIP = 0 ] && tests+=(pass-update-clip)
 
 #
 # GnuPG Conf.
@@ -87,10 +95,12 @@ pass_update() {
 	notice "Test - updating password."
 	pass update Website/user1 --force
 	test $? = 0 && results[pass-update]=SUCCESS
-
-	notice "Test - updating password with clip."
-	pass update Website/user2 --clip --force
-	test $? = 0 && results[pass-update-clip]=SUCCESS
+	
+	if [ $XCLIP = 0 ]; then
+		notice "Test - updating password with clip."
+		pass update Website/user2 --clip --force
+		test $? = 0 && results[pass-update-clip]=SUCCESS
+	fi
 	
 	notice "Test - updating more than one password"
 	pass update Website/user1 Website/user2 --force
