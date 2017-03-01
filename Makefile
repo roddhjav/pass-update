@@ -24,7 +24,6 @@ install:
 uninstall:
 	@rm -vrf \
 		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash" \
-		"$(DESTDIR)$(IMPORTERS_DIR)/" \
 		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
 
 test:
