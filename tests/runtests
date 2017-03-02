@@ -56,7 +56,7 @@ success() { printf " ${bold}${green}(*)${reset} ${green}%s${reset}\n" "${*}"; }
 error() { echo " ${bold}${red}*${reset}${bold} Error :${reset} ${*}"; }
 die() { error "${@}" && exit 1; }
 notice() { echo; title "${@}"; echo; }
-test_xclip() { 
+test_xclip() {
 	echo "$RANDOM" | xclip -i &> /dev/null
 	[ $? = 0 ] || XCLIP=1
 }
@@ -89,32 +89,33 @@ KEY5="4D2AFBDE67C60F5999D143AFA6E073D439E5020C"
 # Test Suite
 #
 notice "Loading test suite"
-[[ -e "$PASSWORD_STORE_DIR" ]] || pass_populate "$KEY1"
+mkdir -p "$PASSWORD_STORE_DIR"
+[[ -e "$PASSWORD_STORE_DIR/.gpg-id" ]] || pass_populate "$KEY1"
 
 pass_update() {
 	notice "Test - updating password."
 	pass update Website/user1 --force
 	test $? = 0 && results[pass-update]=SUCCESS
-	
+
 	if [ $XCLIP = 0 ]; then
 		notice "Test - updating password with clip."
 		pass update Website/user2 --clip --force
 		test $? = 0 && results[pass-update-clip]=SUCCESS
 	fi
-	
+
 	notice "Test - updating more than one password"
 	pass update Website/user1 Website/user2 --force
 	test $? = 0 && results[pass-update-multiple]=SUCCESS
-	
+
 	notice "Test - Bad options"
 	res=0
-	pass update
+	pass update  &> /dev/null
 	test $? = 1 || res=1
-	pass update Website/user
+	pass update Website/user  &> /dev/null
 	test $? = 1 || res=1
-	pass update --unknown-option
+	pass update --unknown-option  &> /dev/null
 	test $? = 1 || res=1
-	pass update --help
+	pass update --help  &> /dev/null
 	test $? = 0 || res=1
 	test $res = 0 && results[pass-update-opt]=SUCCESS
 }
@@ -126,7 +127,7 @@ pass_update
 # Units Test Results
 #
 notice "Test Results"
-for t in ${tests[@]}; do
+for t in "${tests[@]}"; do
 	res=${results[$t]:-FAIL}
 	[[ "$res" == "SUCCESS" ]] || GLOBAL_RESULT=1
     success "$t  $res"
