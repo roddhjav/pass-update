@@ -21,38 +21,41 @@ cmd_update_usage() {
 	Usage:
 	    $PROGRAM update [--help,-h] [--clip,-c] [--force,-f] pass-names...
 	        Provide an interactive solution to update a set of passwords.
-	        It prints the old password and wait for the user before 
+	        It prints the old password and wait for the user before
 	        generating a new one. Both old and newly generated password
 	        can optionally be written on the clipboard using the --clip
 	        option. The --force option allows you to update the password
 	        immediately. Multiple pass-names can be given in order to
 	        update multiple password.
-	        
-	More information may be found in the pass-update(1) man page.	        
+
+	More information may be found in the pass-update(1) man page.
 	_EOF
 	exit 0
 }
 
 cmd_update() {
 	local opts force=0 clip=""
-	opts="$($GETOPT -o cf -l clip,force -n "$PROGRAM $COMMAND" -- "$@")"
+	local symbols="" length="25"
+	opts="$($GETOPT -o cfnl: -l clip,force,no-symbols,length: -n "$PROGRAM $COMMAND" -- "$@")"
 	local err=$?
 	eval set -- "$opts"
 	while true; do case $1 in
 		-c|--clip) clip="--clip"; shift ;;
 		-f|--force) force=1; shift ;;
+		-n|--no-symbols) symbols="--no-symbols"; shift ;;
+		-l|--length) length="$2"; shift 2 ;;
 		--) shift; break ;;
 	esac done
-	
-	[[ $err -ne 0 || -z "$@" ]] && die "Usage: $PROGRAM $COMMAND [--help,-h] [--clip,-c] [--force,-f] pass-names..."
-	
+
+	[[ $err -ne 0 || -z "$@" ]] && die "Usage: $PROGRAM $COMMAND [--help,-h] [--clip,-c] [--force,-f] [--no-ymbols,-n] [-l <s>,--length <s>] pass-names..."
+
 	local path
-	for path in "$@"; do 
+	for path in "$@"; do
 		check_sneaky_paths "$path"
 		printf "\e[1m\e[37mChanging password for \e[4m%s\e[0m\n" "$path"
 		cmd_show "$path" "$clip" || exit 1
 		[[ $force = 1 ]] || yesno "Are you ready to generate a new password?"
-		cmd_generate "$path" "$clip" --in-place || exit 1
+		cmd_generate "$path" $length $symbols $clip "--in-place" || exit 1
 	done
 }
 
