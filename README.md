@@ -40,25 +40,19 @@ Update `Social/facebook.com`
 
 		pacaur -S pass-update
 
-**Other linux**
+**Other linuxes**
 
 		git clone https://gitlab.com/roddhjav/pass-update/
 		cd pass-update
 		sudo make install
 
-**Requirments**
+**Requirements**
 
-In order to use extension with `pass`, you need:
-* `pass 1.7.0` or greater. As of today this version has not been released yet.
-Therefore you need to install it by hand from zx2c4.com:
+* `pass 1.7.0` or greater.
 
-		git clone https://git.zx2c4.com/password-store
-		cd password-store
-		sudo make install
-
-* You need to enable the extensions in pass: `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`.
-You can create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
-
+* If you do not want to install this extension as system extension, you need to
+enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
+create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
 
 ## Contribution
 Feedback, contributors, pull requests are all very welcome.
