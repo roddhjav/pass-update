@@ -91,6 +91,7 @@ KEY5="4D2AFBDE67C60F5999D143AFA6E073D439E5020C"
 notice "Loading test suite"
 mkdir -p "$PASSWORD_STORE_DIR"
 [[ -e "$PASSWORD_STORE_DIR/.gpg-id" ]] || pass_populate "$KEY1"
+pass
 
 pass_update() {
 	notice "Test - updating password."
