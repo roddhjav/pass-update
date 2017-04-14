@@ -63,7 +63,7 @@ cmd_update() {
 		printf "\e[1m\e[37mChanging password for \e[4m%s\e[0m\n" "$path"
 		cmd_show "$path" "$clip" || exit 1
 		[[ $force = 1 ]] || yesno "Are you ready to generate a new password?"
-		cmd_generate "$path" $length $symbols $clip "--in-place" || exit 1
+		cmd_generate "$path" "$length" $symbols $clip "--in-place" || exit 1
 	done
 }
 
