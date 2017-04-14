@@ -5,21 +5,31 @@ pass update - A \fBpass\fP(1) extension that provides a convenient solution to
 update an existing password.
 
 .SH SYNOPSIS
-\fBpass update\fP [\fI--clip\fP,\fI-c\fP] [\fI--force\fP,\fI-f\fP] [\fI--help\fP,\fI-h\fP] \fIpass-names...\fP
+\fBpass update\fP [args] \fIpass-names...\fP
 
 .SH DESCRIPTION
-\fBpass update\fP Provides an interactive solution to update a set of passwords.
+\fBpass update\fP  Provide an interactive solution to update a set of passwords.
 It prints the old password and wait for the user before generating a new one.
 Both old and newly generated password can optionally be written on the clipboard
 using the \fI--clip\fP option. The \fI--force\fP option allows you to update the
-password immediately. Multiple \fIpass-names\fP can be given in order to update
-multiple password.
+password immediately. Specific password length can be given using \fI--length\fP.
+If \fI--no-symbols\fP or \fI-n\fP is specified, do not use any non-alphanumeric
+characters in the generated password. Multiple pass-names can be given in order
+to update multiple password.
 
 .SH OPTIONS
 
 .TP
 \fB\-c\fB, \-\-clip\fR
 Put password in the clipboard.
+
+.TP
+\fB\-n\fB, \-\-no-symbols\fR
+Do not use any non-alphanumeric characters.
+
+.TP
+\fB\-l <size>\fB, \-\-length=<size>\fR
+Provide a password length.
 
 .TP
 \fB\-f\fB, \-\-force\fR
@@ -31,7 +41,9 @@ Show usage message.
 
 .SH SEE ALSO
 .BR pass(1),
+.BR pass-tomb(1),
 .BR pass-import(1),
+.BR pass-otp(1)
 
 
 .SH AUTHORS

@@ -9,16 +9,25 @@ solution to update an existing password.
 
 ```
 Usage:
-    pass update [--help,-h] [--clip,-c] [--force,-f] pass-names...
-        Provide an interactive solution to update a set of passwords.
-        It prints the old password and wait for the user before
-        generating a new one. Both old and newly generated password
-        can optionally be written on the clipboard using the --clip
-        option. The --force option allows you to update the password
-        immediately. Multiple pass-names can be given in order to
-        update multiple password.
+        pass update [options] pass-names...
+            Provide an interactive solution to update a set of passwords.
+            It prints the old password and wait for the user before
+            generating a new one. Both old and newly generated password
+            can optionally be written on the clipboard using the --clip
+            option. The --force option allows you to update the password
+            immediately. Specific password length can be given using --length
+            and no symbols can be actived with --no-symbols. Multiple
+            pass-names can be given in order to update multiple password.
+
+    	Options:
+            -c, --clip       Write the password in the clipboard.
+            -n, --no-symbols Do not use any non-alphanumeric characters.
+            -l, --length     Provide a password length.
+            -f, --force      Force update.
+            -h, --help	     Print this help message and exit.
 
 More information may be found in the pass-update(1) man page.
+
 ```
 
 See `man pass-update` for more information.
@@ -26,13 +35,14 @@ See `man pass-update` for more information.
 ## Example
 
 Update `Social/facebook.com`
-
-	pass update Social/facebook.com
-	Changing password for Social/facebook.com
-	[}p&62"#"x'aF/_ix}6X3a)zq
-	Are you ready to generate a new password? [y/N] y
-	The generated password for Social/facebook.com is:
-	~*>afZsB+G\,c#+g$-,{OqJ{w
+```
+pass update Social/facebook.com
+Changing password for Social/facebook.com
+[}p&62"#"x'aF/_ix}6X3a)zq
+Are you ready to generate a new password? [y/N] y
+The generated password for Social/facebook.com is:
+~*>afZsB+G\,c#+g$-,{OqJ{w
+```
 
 ## Installation
 
@@ -46,7 +56,7 @@ Update `Social/facebook.com`
 		cd pass-update
 		sudo make install
 
-**Requirements**
+**Requirments**
 
 * `pass 1.7.0` or greater.
 
