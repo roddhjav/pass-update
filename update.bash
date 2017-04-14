@@ -19,14 +19,22 @@
 cmd_update_usage() {
 	cat <<-_EOF
 	Usage:
-	    $PROGRAM update [--help,-h] [--clip,-c] [--force,-f] pass-names...
-	        Provide an interactive solution to update a set of passwords.
-	        It prints the old password and wait for the user before
-	        generating a new one. Both old and newly generated password
-	        can optionally be written on the clipboard using the --clip
-	        option. The --force option allows you to update the password
-	        immediately. Multiple pass-names can be given in order to
-	        update multiple password.
+        $PROGRAM update [options] pass-names...
+            Provide an interactive solution to update a set of passwords.
+            It prints the old password and wait for the user before
+            generating a new one. Both old and newly generated password
+            can optionally be written on the clipboard using the --clip
+            option. The --force option allows you to update the password
+            immediately. Specific password length can be given using --length
+            and no symbols can be actived with --no-symbols. Multiple
+            pass-names can be given in order to update multiple password.
+
+    	Options:
+            -c, --clip       Write the password in the clipboard.
+            -n, --no-symbols Do not use any non-alphanumeric characters.
+            -l, --length     Provide a password length.
+            -f, --force      Force update.
+            -h, --help	     Print this help message and exit.
 
 	More information may be found in the pass-update(1) man page.
 	_EOF
@@ -47,7 +55,7 @@ cmd_update() {
 		--) shift; break ;;
 	esac done
 
-	[[ $err -ne 0 || -z "$@" ]] && die "Usage: $PROGRAM $COMMAND [--help,-h] [--clip,-c] [--force,-f] [--no-ymbols,-n] [-l <s>,--length <s>] pass-names..."
+	[[ $err -ne 0 || -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [--help,-h] [--clip,-c] [--force,-f] [--no-ymbols,-n] [-l <s>,--length <s>] pass-names..."
 
 	local path
 	for path in "$@"; do
