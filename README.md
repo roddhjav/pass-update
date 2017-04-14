@@ -1,9 +1,7 @@
-# pass update 
+# pass update [![build status][build-img]][build-url]
 
 A [pass](https://www.passwordstore.org/) extension that provides a convenient
 solution to update an existing password.
-
-[![build status](https://gitlab.com/roddhjav/pass-update/badges/master/build.svg)](https://gitlab.com/roddhjav/pass-update/commits/master)
 
 ## Usage
 
@@ -52,7 +50,7 @@ The generated password for Social/facebook.com is:
 
 **Other linuxes**
 
-		git clone https://gitlab.com/roddhjav/pass-update/
+		git clone https://github.com/roddhjav/pass-update/
 		cd pass-update
 		sudo make install
 
@@ -85,3 +83,5 @@ Feedback, contributors, pull requests are all very welcome.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+[build-img]: https://travis-ci.org/roddhjav/pass-update.svg?branch=master
+[build-url]: https://travis-ci.org/roddhjav/pass-update
