@@ -43,7 +43,7 @@ cmd_update_usage() {
 
 cmd_update() {
 	local opts force=0 clip=""
-	local symbols="" length="25"
+	local symbols="" length="$GENERATED_LENGTH"
 	opts="$($GETOPT -o cfnl: -l clip,force,no-symbols,length: -n "$PROGRAM $COMMAND" -- "$@")"
 	local err=$?
 	eval set -- "$opts"
