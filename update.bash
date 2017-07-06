@@ -55,7 +55,7 @@ cmd_update() {
 		--) shift; break ;;
 	esac done
 
-	[[ $err -ne 0 || -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [--help,-h] [--clip,-c] [--force,-f] [--no-symbols,-n] [-l <s>,--length <s>] pass-names..."
+	[[ $err -ne 0 || -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-f] [--clip] [--no-symbols,-n] [--length <s>] pass-names..."
 
 	local path
 	for path in "$@"; do
