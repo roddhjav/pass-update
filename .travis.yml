@@ -1,29 +1,41 @@
 dist: trusty
-sudo: false
+sudo: required
 
 language: bash
 
 env:
-  - PASS_VERSION=1.7
-  - PASS_VERSION=master
+  global:
+    - PASS_VERSION=1.7
 
 addons:
   apt:
-    sources:
-      - debian-sid
     packages:
       - tree
       - xclip
       - shellcheck
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev
+      - cmake
 
 before_script:
   - wget https://git.zx2c4.com/password-store/snapshot/password-store-$PASS_VERSION.tar.xz
-  - tar -xvf password-store-$PASS_VERSION.tar.xz
-  - ln -s password-store-$PASS_VERSION/src/password-store.sh pass
-  - export PATH="$PATH:$PWD"
-
-install: true
+  - tar -xf password-store-$PASS_VERSION.tar.xz
+  - sudo make --directory=password-store-$PASS_VERSION install
+  - wget https://github.com/SimonKagstrom/kcov/archive/v33.tar.gz &&
+    tar xzf v33.tar.gz &&
+    cd kcov-33 &&
+    mkdir build &&
+    cd build &&
+    cmake .. &&
+    make &&
+    sudo make install &&
+    cd ../.. &&
+    rm -rf kcov-33
 
 script:
   - make lint
   - make test
+
+notifications:
+  email: false
