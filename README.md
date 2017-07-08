@@ -1,4 +1,4 @@
-# pass update [![build status][build-img]][build-url]
+# pass update [![build][build-img]][build-url] [![coverage][cover-img]][cover-url] [![climate][clima-img]][clima-url]
 
 A [pass](https://www.passwordstore.org/) extension that provides a convenient
 solution to update an existing password.
@@ -85,3 +85,7 @@ Feedback, contributors, pull requests are all very welcome.
 
 [build-img]: https://travis-ci.org/roddhjav/pass-update.svg?branch=master
 [build-url]: https://travis-ci.org/roddhjav/pass-update
+[cover-img]: https://coveralls.io/repos/github/roddhjav/pass-update/badge.svg?branch=master
+[cover-url]: https://coveralls.io/github/roddhjav/pass-update?branch=master
+[clima-img]: https://codeclimate.com/github/roddhjav/pass-update/badges/gpa.svg
+[clima-url]: https://codeclimate.com/github/roddhjav/pass-update
