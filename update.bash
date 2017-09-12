@@ -53,6 +53,7 @@ cmd_update_usage() {
 
 cmd_update() {
 	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-f] [--clip] [--no-symbols,-n] [--length <s>] pass-names..."
+	[[ ! $LENGTH =~ ^[0-9]+$ ]] && die "Error: pass-length \"$LENGTH\" must be a number."
 
 	local path
 	for path in "$@"; do
