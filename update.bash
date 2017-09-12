@@ -52,30 +52,37 @@ cmd_update_usage() {
 }
 
 cmd_update() {
-	local opts force=0 clip=""
-	local symbols="" length="$GENERATED_LENGTH"
-	opts="$($GETOPT -o cfnl: -l clip,force,no-symbols,length: -n "$PROGRAM $COMMAND" -- "$@")"
-	local err=$?
-	eval set -- "$opts"
-	while true; do case $1 in
-		-c|--clip) clip="--clip"; shift ;;
-		-f|--force) force=1; shift ;;
-		-n|--no-symbols) symbols="--no-symbols"; shift ;;
-		-l|--length) length="$2"; shift 2 ;;
-		--) shift; break ;;
-	esac done
-
-	[[ $err -ne 0 || -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-f] [--clip] [--no-symbols,-n] [--length <s>] pass-names..."
+	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-f] [--clip] [--no-symbols,-n] [--length <s>] pass-names..."
 
 	local path
 	for path in "$@"; do
 		check_sneaky_paths "$path"
 		printf "\e[1m\e[37mChanging password for \e[4m%s\e[0m\n" "$path"
-		cmd_show "$path" "$clip" || exit 1
-		[[ $force = 1 ]] || yesno "Are you ready to generate a new password?"
-		cmd_generate "$path" "$length" $symbols $clip "--in-place" || exit 1
+		cmd_show "$path" "$CLIP" || exit 1
+		[[ $FORCE = 1 ]] || yesno "Are you ready to generate a new password?"
+		cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP "--in-place" || exit 1
 	done
 }
 
-[[ "$1" == "help" || "$1" == "--help" || "$1" == "-h" ]] && cmd_update_usage
+# Global options
+FORCE=0
+CLIP=""
+SYMBOLS=""
+LENGTH="$GENERATED_LENGTH"
+
+# Getopt options
+small_arg="cfnl:"
+long_arg="clip,force,no-symbols,length:"
+opts="$($GETOPT -o $small_arg -l $long_arg -n "$PROGRAM $COMMAND" -- "$@")"
+err=$?
+eval set -- "$opts"
+while true; do case $1 in
+	-c|--clip) CLIP="--clip"; shift ;;
+	-f|--force) FORCE=1; shift ;;
+	-n|--no-symbols) SYMBOLS="--no-symbols"; shift ;;
+	-l|--length) LENGTH="$2"; shift 2 ;;
+	--) shift; break ;;
+esac done
+
+[[ $err -ne 0 ]] && cmd_update_usage && exit 1
 cmd_update "$@"
