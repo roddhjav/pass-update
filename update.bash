@@ -17,6 +17,9 @@
 #
 
 readonly VERSION="2.0"
+
+warning() { echo -e "Warning: ${*}" >&2; }
+
 cmd_update_version() {
 	cat <<-_EOF
 	$PROGRAM $COMMAND $VERSION - A pass extension that provides a convenient solution to update
@@ -48,7 +51,27 @@ cmd_update_usage() {
 
 	More information may be found in the pass-update(1) man page.
 	_EOF
-	exit 0
+}
+
+# Print the content of a passfile
+# $1: Path in the password store
+_show() {
+	local path="${1%/}" passfile="$PREFIX/$path.gpg"
+	[[ -f $passfile ]] && { $GPG -d "${GPG_OPTS[@]}" "$passfile" || exit $?; }
+}
+
+# Insert data to the password store
+# $1: Path in the password store
+# $2: Data to insert
+_insert() {
+	local path="${1%/}" data="$2" passfile="$PREFIX/$path.gpg"
+
+	set_git "$passfile"
+	mkdir -p -v "$PREFIX/$(dirname "$path")"
+	set_gpg_recipients "$(dirname "$path")"
+	$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" <<<"$data" || \
+		die "Error: Password encryption aborted."
+	git_add_file "$passfile" "Add given password for $path to store."
 }
 
 cmd_update() {
