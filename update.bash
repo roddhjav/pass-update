@@ -75,36 +75,88 @@ _insert() {
 }
 
 cmd_update() {
+	# Sanity checks
 	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-f] [--clip] [--no-symbols,-n] [--length <s>] pass-names..."
 	[[ ! $LENGTH =~ ^[0-9]+$ ]] && die "Error: pass-length \"$LENGTH\" must be a number."
+	[[ ! -z "$CLIP" && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --clip and --provide together"
+	[[ "$EDIT" -eq 1 && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --edit and --provide together"
 
-	local path
+	# Get the list of path to update
+	typeset -a paths=() passfiles=()
+	local path passfile passdir file
 	for path in "$@"; do
 		check_sneaky_paths "$path"
+		passfile="$PREFIX/${path%/}.gpg"
+		passdir="$PREFIX/${path%/}"
+		if [[ -d "$passdir" ]]; then
+			passfiles=($(find "$passdir" -type f -iname '*.gpg' -printf "$path/%P\n"))
+			for file in "${passfiles[@]}"; do paths+=("${file%.gpg}") ; done
+		else
+			[[ -f $passfile ]] && paths+=("$path") || warning "$path is not in the password store."
+		fi
+	done
+
+	local content
+	for path in "${paths[@]}"; do
+		# Show old password
 		printf "\e[1m\e[37mChanging password for \e[4m%s\e[0m\n" "$path"
-		cmd_show "$path" "$CLIP" || exit 1
-		[[ $FORCE = 1 ]] || yesno "Are you ready to generate a new password?"
-		cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP "--in-place" || exit 1
+		content="$(_show "$path")"
+		if [[ -z "$CLIP" ]]; then
+			printf "%s\n" "$content"
+		else
+			clip "$(echo "$content" | tail -n +1 | head -n 1)" "$path"
+		fi
+
+		# Ask user for confirmation
+		if [[ $YES -eq 0 ]]; then
+			[[ $PROVIDED -eq 1 ]] && verb="provide" || verb="generate"
+			yesno "Are you ready to $verb a new password?"
+		fi
+
+		# Update the password
+		if [[ $PROVIDED -eq 1 ]]; then
+			local password password_again
+			while true; do
+				read -r -p "Enter the new password for $path: " -s password || exit 1
+				echo
+				read -r -p "Retype the new password for $path: " -s password_again || exit 1
+				echo
+				if [[ "$password" == "$password_again" ]]; then
+					break
+				else
+					die "Error: the entered passwords do not match."
+				fi
+			done
+			_insert "$path" "$(echo "$content" | sed $'1c \\\n'"$(sed 's/[\/&]/\\&/g' <<<"$password")"$'\n')"
+		else
+			cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP "--in-place" || exit 1
+		fi
 	done
 }
 
 # Global options
-FORCE=0
+YES=0
+MULTLINE=0
 CLIP=""
 SYMBOLS=""
+PROVIDED=0
 LENGTH="$GENERATED_LENGTH"
 
 # Getopt options
-small_arg="cfnl:"
-long_arg="clip,force,no-symbols,length:"
+small_arg="hVcfnl:pm"
+long_arg="help,version,clip,force,no-symbols,length:,provide,multiline"
 opts="$($GETOPT -o $small_arg -l $long_arg -n "$PROGRAM $COMMAND" -- "$@")"
 err=$?
 eval set -- "$opts"
 while true; do case $1 in
 	-c|--clip) CLIP="--clip"; shift ;;
-	-f|--force) FORCE=1; shift ;;
+	-f|--force) YES=1; shift ;;
 	-n|--no-symbols) SYMBOLS="--no-symbols"; shift ;;
+	-p|--provide) PROVIDED=1; shift ;;
 	-l|--length) LENGTH="$2"; shift 2 ;;
+	-m|--multiline) MULTLINE=1; shift ;;
+	-h|--help) shift; cmd_update_usage; exit 0 ;;
+	-V|--version) shift; cmd_update_version; exit 0 ;;
 	--) shift; break ;;
 esac done
 
