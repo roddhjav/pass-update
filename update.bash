@@ -69,8 +69,14 @@ _insert() {
 	set_git "$passfile"
 	mkdir -p -v "$PREFIX/$(dirname "$path")"
 	set_gpg_recipients "$(dirname "$path")"
-	$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" <<<"$data" || \
-		die "Error: Password encryption aborted."
+	if [[ $MULTLINE -eq 0 ]]; then
+		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" <<<"$data" || \
+			die "Error: Password encryption aborted."
+	else
+		echo "Enter contents of $path and press Ctrl+D when finished:"
+		echo
+		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" || die "Error: Password encryption aborted."
+	fi
 	git_add_file "$passfile" "Add given password for $path to store."
 }
 
@@ -128,6 +134,8 @@ cmd_update() {
 				fi
 			done
 			_insert "$path" "$(echo "$content" | sed $'1c \\\n'"$(sed 's/[\/&]/\\&/g' <<<"$password")"$'\n')"
+		elif [[ $MULTLINE -eq 1 ]]; then
+			_insert "$path"
 		else
 			cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP "--in-place" || exit 1
 		fi
