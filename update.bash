@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-readonly VERSION="1.0"
+readonly VERSION="2.0"
 cmd_update_version() {
 	cat <<-_EOF
 	$PROGRAM $COMMAND $VERSION - A pass extension that provides a convenient solution to update
