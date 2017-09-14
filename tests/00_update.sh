@@ -7,22 +7,22 @@ source ./setup
 
 test_cleanup
 test_export "update"
-test_pass_populate
+test_pass_populate &> /dev/null
 
 test_expect_success 'Updating a password' '
-    _pass update --force Tests/password
+    _pass update Business/site.com
     '
 
 test_expect_success 'Updating multiple password' '
-    _pass update --force Tests/multiple1 Tests/multiple2
+    _pass update --force France/bank France/freebox France/mobilephone &&
     '
 
 test_expect_success 'Updating password with specific length' '
-    _pass update --force --length=50 Tests/lenght
+    _pass update --force --length=50 France/bank
     '
 
 test_expect_success 'Updating password with no symbols' '
-    _pass update --force --no-symbols Tests/symbols
+    _pass update --force --no-symbols Business/site.eu
     '
 
 test_expect_success 'Testing help message' '
