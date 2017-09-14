@@ -22,8 +22,8 @@ warning() { echo -e "Warning: ${*}" >&2; }
 
 cmd_update_version() {
 	cat <<-_EOF
-	$PROGRAM $COMMAND $VERSION - A pass extension that provides a convenient solution to update
-                  existing passwords.
+	$PROGRAM $COMMAND $VERSION - A pass extension extension that provides an
+                  easy flow for updating passwords.
 	_EOF
 }
 
@@ -32,22 +32,23 @@ cmd_update_usage() {
 	echo
 	cat <<-_EOF
 	Usage:
-        $PROGRAM update [options] pass-names...
+        $PROGRAM update [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-f] pass-names...
             Provide an interactive solution to update a set of passwords.
-            It prints the old password and wait for the user before
-            generating a new one. Both old and newly generated password
-            can optionally be written on the clipboard using the --clip
-            option. The --force option allows you to update the password
-            immediately. Specific password length can be given using --length
-            and no symbols can be actived with --no-symbols. Multiple
-            pass-names can be given in order to update multiple password.
+            pass-names can refer either to password store path(s) or to
+            directory.
+
+            It prints the old password and wait for the user before generating
+            a new one. This behavior can be changed using the provided options.
 
     	Options:
             -c, --clip       Write the password in the clipboard.
             -n, --no-symbols Do not use any non-alphanumeric characters.
             -l, --length     Provide a password length.
+            -p, --provide    Let the user specify a password by hand.
+            -m, --multiline  Update a multiline password.
             -f, --force      Force update.
-            -h, --help	     Print this help message and exit.
+            -V, --version    Show version information.
+            -h, --help       Print this help message and exit.
 
 	More information may be found in the pass-update(1) man page.
 	_EOF
