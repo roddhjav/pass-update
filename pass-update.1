@@ -1,27 +1,59 @@
-.TH pass-update 1 "January 2017" "pass-update"
+.TH pass-update 1 "September 2017" "pass-update"
 
 .SH NAME
-pass update - A \fBpass\fP(1) extension that provides a convenient solution to
-update an existing password.
+pass update - A \fBpass\fP(1) extension that provides an easy flow for updating
+passwords.
 
 .SH SYNOPSIS
-\fBpass update\fP [args] \fIpass-names...\fP
+\fBpass update\fP [options] \fIpass-names...\fP
 
 .SH DESCRIPTION
-\fBpass update\fP  Provide an interactive solution to update a set of passwords.
-It prints the old password and wait for the user before generating a new one.
+\fBpass update\fP extends the pass utility with an update command providing
+an easy flow for updating passwords. It allows you to update all the passwords
+in a folder or to provide the extact list of password to update. Moreover, you
+can select how to update your passwords by automaticaly generating new passwords
+or manually setting your own.
+
+By default \fBpass update\fP prints the old password and wait for the user before
+generating a new one. This behavior can be changed using the provided options.
+
+.SH COMMAND
+.TP
+\fBpass update\fP [ \fI--clip\fP, \fI-c\fP ] [ \fI--no-symbols\fP, \fI-n\fP ] [ \fI--provide\fP, \fI-p\fP ]
+     [\fI--length=<size>\fP, \fI-l <size>\fP] [ \fI--multiline\fP, \fI-m\fP ] \fIpass-names...\fP
+
+Update the password provided: print the password and wait for the user to
+generate a new one.
+
+.I pass-names
+can refer either to password store path(s) or to directory. Both path and
+directory can be given in the same command. When updating a directory, all the
+password in this directory are updated.
+
 Both old and newly generated password can optionally be written on the clipboard
-using the \fI--clip\fP option. The \fI--force\fP option allows you to update the
-password immediately. Specific password length can be given using \fI--length\fP.
+using the \fI--clip\fP or \fI-c\fP option.
+
 If \fI--no-symbols\fP or \fI-n\fP is specified, do not use any non-alphanumeric
-characters in the generated password. Multiple pass-names can be given in order
-to update multiple password.
+characters in the generated password.
+
+Specific password length can be given using \fI--length\fP or \fI-l\fP is
+specified, along with a numerical argument.
+
+If \fI--provide\fP or \fI-p\fP is specified, let the user specify a password by
+hand. The user will have to confirm the password.
+
+If \fI--multiline\fP or \fI-m\fP is specified, update a multiline password.
+Beware this option will ovewrite the full password file instead of updating
+the password field.
+
+If \fI--force\fP or \fI-f\fP is specified, pass update does not wait for the
+user and generate a new password immediately.
 
 .SH OPTIONS
 
 .TP
 \fB\-c\fB, \-\-clip\fR
-Put password in the clipboard.
+Write the password in the clipboard.
 
 .TP
 \fB\-n\fB, \-\-no-symbols\fR
@@ -32,12 +64,97 @@ Do not use any non-alphanumeric characters.
 Provide a password length.
 
 .TP
+\fB\-p\fB, \-\-provide\fR
+Let the user specify a password by hand.
+
+.TP
+\fB\-m\fB, \-\-multiline\fR
+Update a multiline password.
+
+.TP
 \fB\-f\fB, \-\-force\fR
 Force to update and do not wait for user instruction.
 
 .TP
+\fB\-V\fB, \-\-version\fR
+Show version information
+
+.TP
 \fB\-h\fB, \-\-help\fR
 Show usage message.
+
+
+.SH EXAMPLES
+.TP
+Update Social/twitter.com
+.B zx2c4@laptop ~ $ pass update Social/twitter.com
+.br
+Changing password for Social/twitter.com
+.br
+[}p&62"#"x'aF/_ix}6X3a)zq
+.br
+Are you ready to generate a new password? [y/N] y
+.br
+The generated password for Social/twitter.com is:
+.br
+~*>afZsB+G\,c#+g$-,{OqJ{w
+
+.TP
+Update all the Emails
+.B zx2c4@laptop ~ $ pass update Email
+.br
+Changing password for Email/donenfeld.com
+.br
+b9b"k(u#m7|ST-400B5gM%[Kq
+.br
+Are you ready to generate a new password? [y/N] y
+.br
+The generated password for Email/donenfeld.com is:
+.br
+m6~!b5U`OhloT~R,4-OCa:h$Q
+.br
+Changing password for Email/zx2c4.com
+.br
+4Fg{1Wg;WM{JZHqAMI:j5Jo$7
+.br
+Are you ready to generate a new password? [y/N] y
+.br
+The generated password for Email/zx2c4.com is:
+.br
+@uLYW_X9a",?wDQN=hp/^Z!$J
+
+.TP
+Set password length
+.B zx2c4@laptop ~ $ pass update France/bank -l 50
+.br
+Changing password for France/bank
+.br
+9b'I;]b)>06xug!3.ME1*E+M3
+.br
+login: zx2c4
+.br
+Are you ready to generate a new password? [y/N] y
+.br
+The generated password for France/bank is:
+.br
+|3=&{ko:#I|A,P4*=[|hk^/V4jIcRN.uBBd-~RB0_L<sS[%k%-
+
+.TP
+Provide a password by hand
+.B zx2c4@laptop ~ $ pass update Business/site.com -p
+.br
+Changing password for Business/site.com
+.br
+Zk=u]HqjUAKPZ$gM_,LuZV8J2
+.br
+login: zx2c4
+.br
+Are you ready to provide a new password? [y/N] y
+.br
+Enter the new password for Business/site.com:
+.br
+Retype the new password for Business/site.com:
+
 
 .SH SEE ALSO
 .BR pass(1),
