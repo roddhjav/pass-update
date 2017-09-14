@@ -25,6 +25,12 @@ test_expect_success 'Updating password with no symbols' '
     _pass update --force --no-symbols Business/site.eu
     '
 
+if test_have_prereq XCLIP; then
+    test_expect_success 'Updating password with clipboard output' '
+        _pass update --force --clip Email/donenfeld.com
+        '
+fi
+
 test_expect_success 'Testing help message' '
 	_pass update --help
 	'
