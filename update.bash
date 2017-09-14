@@ -73,21 +73,21 @@ _insert() {
 		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" <<<"$data" || \
 			die "Error: Password encryption aborted."
 	else
-		echo "Enter contents of $path and press Ctrl+D when finished:"
-		echo
-		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" || die "Error: Password encryption aborted."
+		echo -e "Enter the updated contents of $path and press Ctrl+D when finished:\n"
+		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" || \
+			die "Error: Password encryption aborted."
 	fi
-	git_add_file "$passfile" "Add given password for $path to store."
+	git_add_file "$passfile" "Update password for $path to store."
 }
 
 cmd_update() {
 	# Sanity checks
-	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-f] [--clip] [--no-symbols,-n] [--length <s>] pass-names..."
+	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-f] pass-names..."
 	[[ ! $LENGTH =~ ^[0-9]+$ ]] && die "Error: pass-length \"$LENGTH\" must be a number."
 	[[ ! -z "$CLIP" && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --clip and --provide together"
-	[[ "$EDIT" -eq 1 && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --edit and --provide together"
+	[[ $MULTLINE -eq 1 && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --multiline and --provide together"
 
-	# Get the list of path to update
+	# Get a curated list of path to update
 	typeset -a paths=() passfiles=()
 	local path passfile passdir file
 	for path in "$@"; do
@@ -115,7 +115,7 @@ cmd_update() {
 
 		# Ask user for confirmation
 		if [[ $YES -eq 0 ]]; then
-			[[ $PROVIDED -eq 1 ]] && verb="provide" || verb="generate"
+			[[ $PROVIDED -eq 1 || $MULTLINE -eq 1 ]] && verb="provide" || verb="generate"
 			yesno "Are you ready to $verb a new password?"
 		fi
 
