@@ -33,7 +33,7 @@ EXT_HOME="$(dirname "$TEST_HOME")"
 
 # Check dependencies
 _die() { echo "${@}" && exit 1; }
-PASS="$(which pass)"; GPG="$(which gpg)"; COVERAGE="true"
+PASS="$(which pass)"; GPG="$(which gpg)"; COVERAGE=true; GIT=false
 [[ -e "$PASS" ]] || _die "Could not find pass command"
 if [[ ! -e "$GPG" ]]; then
 	if which gpg2 &>/dev/null; then
@@ -42,7 +42,7 @@ if [[ ! -e "$GPG" ]]; then
 		_die "Could not find gpg command"
 	fi
 fi
-if [[ "$COVERAGE" == "true" ]]; then
+if [[ $COVERAGE == true ]]; then
 	KCOV="$(which kcov)"; [[ -e "$KCOV" ]] || _die "Could not find kcov command"
 	_pass() { "$KCOV" --exclude-path="$PASS" "$TMP/$0" "$PASS" "${@}"; }
 else
@@ -102,6 +102,7 @@ test_pass_populate() {
 	pass_insert "France/bank" "$RANDOM"
 	pass_insert "France/freebox" "$RANDOM"
 	pass_insert "France/mobilephone" "$RANDOM"
+	[[ $GIT == true ]] && pass git init
 }
 
 test_cleanup() {
@@ -113,6 +114,10 @@ test_export() {
 	export testname="$1"
 	export PASSWORD_STORE_DIR="$TMP/${testname}-store"
 	export PASSWORD_STORE_CLIP_TIME="1"
+	export GIT_DIR="$PASSWORD_STORE_DIR/.git"
+	export GIT_WORK_TREE="$PASSWORD_STORE_DIR"
+	git config --global user.email "Pass-Automated-Testing-Suite@zx2c4.com"
+	git config --global user.name "Pass Automated Testing Suite"
 }
 
 test_xclip() {
