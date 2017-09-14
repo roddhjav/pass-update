@@ -89,16 +89,19 @@ chmod 700 "$GNUPGHOME"
 
 # Test helpers
 
+pass_insert() {
+	echo -e "$2\nlogin: zx2c4" | pass insert --multiline --force "$1"
+}
+
 test_pass_populate() {
-	local path=""
-	[[ -z "$1" ]] || path="--path=$1/"
-	pass init "$KEY1" $path
-	pass generate "${path}Tests/password"
-	pass generate "${path}Tests/multiple1"
-	pass generate "${path}Tests/multiple2"
-	pass generate "${path}Tests/lenght"
-	pass generate "${path}Tests/symbols"
-	pass generate "${path}Tests/xclip"
+	pass init "$KEY1"
+	pass_insert "Business/site.com" "$RANDOM"
+	pass_insert "Business/site.eu" "$RANDOM"
+	pass_insert "Email/donenfeld.com" "$RANDOM"
+	pass_insert "Email/zx2c4.com" "$RANDOM"
+	pass_insert "France/bank" "$RANDOM"
+	pass_insert "France/freebox" "$RANDOM"
+	pass_insert "France/mobilephone" "$RANDOM"
 }
 
 test_cleanup() {
@@ -109,6 +112,7 @@ test_cleanup() {
 test_export() {
 	export testname="$1"
 	export PASSWORD_STORE_DIR="$TMP/${testname}-store"
+	export PASSWORD_STORE_CLIP_TIME="1"
 }
 
 test_xclip() {
