@@ -41,7 +41,7 @@ More information may be found in the pass-update(1) man page.
 
 See `man pass-update` for more information.
 
-## Example
+## Examples
 
 **Update `Social/twitter.com`**
 ```

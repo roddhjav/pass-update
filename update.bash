@@ -16,6 +16,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# shellcheck disable=SC2086,SC2015
+
 readonly VERSION="2.0"
 
 warning() { echo -e "Warning: ${*}" >&2; }
