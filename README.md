@@ -19,7 +19,7 @@ pass update 2.0 - A pass extension extension that provides an
                   easy flow for updating passwords.
 
 Usage:
-        pass update [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-f] pass-names...
+        pass update [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-e] [-f] pass-names
             Provide an interactive solution to update a set of passwords.
             pass-names can refer either to password store path(s) or to directory.
 
@@ -32,6 +32,7 @@ Usage:
             -l, --length     Provide a password length.
             -p, --provide    Let the user specify a password by hand.
             -m, --multiline  Update a multiline password.
+            -e, --edit       Edit the password using the default editor.
             -f, --force      Force update.
             -V, --version    Show version information.
             -h, --help       Print this help message and exit.

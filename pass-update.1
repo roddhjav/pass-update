@@ -20,7 +20,8 @@ generating a new one. This behavior can be changed using the provided options.
 .SH COMMAND
 .TP
 \fBpass update\fP [ \fI--clip\fP, \fI-c\fP ] [ \fI--no-symbols\fP, \fI-n\fP ] [ \fI--provide\fP, \fI-p\fP ]
-     [\fI--length=<size>\fP, \fI-l <size>\fP] [ \fI--multiline\fP, \fI-m\fP ] \fIpass-names...\fP
+     [\fI--length=<size>\fP, \fI-l <size>\fP] [ \fI--multiline\fP, \fI-m\fP ] [ \fI--edit\fP, \fI-e\fP ]
+     \fIpass-names...\fP
 
 Update the password provided: print the password and wait for the user to
 generate a new one.
@@ -46,6 +47,9 @@ If \fI--multiline\fP or \fI-m\fP is specified, update a multiline password.
 Beware this option will ovewrite the full password file instead of updating
 the password field.
 
+If \fI--edit\fP or \fI-e\fP is specified, edit the password using the default
+editor. This editor can be specified with \fIEDITOR\fP.
+
 If \fI--force\fP or \fI-f\fP is specified, pass update does not wait for the
 user and generate a new password immediately.
 
@@ -70,6 +74,10 @@ Let the user specify a password by hand.
 .TP
 \fB\-m\fB, \-\-multiline\fR
 Update a multiline password.
+
+.TP
+\fB\-e\fB, \-\-edit\fR
+Edit the password using the default editor.
 
 .TP
 \fB\-f\fB, \-\-force\fR

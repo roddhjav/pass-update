@@ -34,7 +34,7 @@ cmd_update_usage() {
 	echo
 	cat <<-_EOF
 	Usage:
-        $PROGRAM update [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-f] pass-names...
+        $PROGRAM update [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-e] [-f] pass-names
             Provide an interactive solution to update a set of passwords.
             pass-names can refer either to password store path(s) or to
             directory.
