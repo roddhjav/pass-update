@@ -44,7 +44,7 @@ if [[ ! -e "$GPG" ]]; then
 fi
 if [[ $COVERAGE == true ]]; then
 	KCOV="$(which kcov)"; [[ -e "$KCOV" ]] || _die "Could not find kcov command"
-	_pass() { "$KCOV" --exclude-path="$PASS" "$TMP/$0" "$PASS" "${@}"; }
+	_pass() { "$KCOV" --exclude-path="$PASS,$TEST_HOME/fake-editor" "$TMP/$0" "$PASS" "${@}"; }
 else
 	_pass() { "$PASS" "${@}"; }
 fi
@@ -114,6 +114,8 @@ test_export() {
 	export testname="$1"
 	export PASSWORD_STORE_DIR="$TMP/${testname}-store"
 	export PASSWORD_STORE_CLIP_TIME="1"
+	export PATH="$TEST_HOME:$PATH"
+	export EDITOR="fake-editor"
 	export GIT_DIR="$PASSWORD_STORE_DIR/.git"
 	export GIT_WORK_TREE="$PASSWORD_STORE_DIR"
 	git config --global user.email "Pass-Automated-Testing-Suite@zx2c4.com"
