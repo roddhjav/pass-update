@@ -48,6 +48,7 @@ cmd_update_usage() {
             -l, --length     Provide a password length.
             -p, --provide    Let the user specify a password by hand.
             -m, --multiline  Update a multiline password.
+            -e, --edit       Edit the password using the default editor.
             -f, --force      Force update.
             -V, --version    Show version information.
             -h, --help       Print this help message and exit.
@@ -85,7 +86,7 @@ _insert() {
 
 cmd_update() {
 	# Sanity checks
-	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-f] pass-names..."
+	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-e] [-f] pass-names"
 	[[ ! $LENGTH =~ ^[0-9]+$ ]] && die "Error: pass-length \"$LENGTH\" must be a number."
 	[[ ! -z "$CLIP" && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --clip and --provide together"
 	[[ $MULTLINE -eq 1 && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --multiline and --provide together"
@@ -107,40 +108,44 @@ cmd_update() {
 
 	local content
 	for path in "${paths[@]}"; do
-		# Show old password
-		printf "\e[1m\e[37mChanging password for \e[4m%s\e[0m\n" "$path"
-		content="$(_show "$path")"
-		if [[ -z "$CLIP" ]]; then
-			printf "%s\n" "$content"
-		else
-			clip "$(echo "$content" | tail -n +1 | head -n 1)" "$path"
-		fi
+		if [[ $EDIT -eq 0 ]]; then
+			# Show old password
+			printf "\e[1m\e[37mChanging password for \e[4m%s\e[0m\n" "$path"
+			content="$(_show "$path")"
+			if [[ -z "$CLIP" ]]; then
+				printf "%s\n" "$content"
+			else
+				clip "$(echo "$content" | tail -n +1 | head -n 1)" "$path"
+			fi
 
-		# Ask user for confirmation
-		if [[ $YES -eq 0 ]]; then
-			[[ $PROVIDED -eq 1 || $MULTLINE -eq 1 ]] && verb="provide" || verb="generate"
-			yesno "Are you ready to $verb a new password?"
-		fi
+			# Ask user for confirmation
+			if [[ $YES -eq 0 ]]; then
+				[[ $PROVIDED -eq 1 || $MULTLINE -eq 1 ]] && verb="provide" || verb="generate"
+				yesno "Are you ready to $verb a new password?"
+			fi
 
-		# Update the password
-		if [[ $PROVIDED -eq 1 ]]; then
-			local password password_again
-			while true; do
-				read -r -p "Enter the new password for $path: " -s password || exit 1
-				echo
-				read -r -p "Retype the new password for $path: " -s password_again || exit 1
-				echo
-				if [[ "$password" == "$password_again" ]]; then
-					break
-				else
-					die "Error: the entered passwords do not match."
-				fi
-			done
-			_insert "$path" "$(echo "$content" | sed $'1c \\\n'"$(sed 's/[\/&]/\\&/g' <<<"$password")"$'\n')"
-		elif [[ $MULTLINE -eq 1 ]]; then
-			_insert "$path"
+			# Update the password
+			if [[ $PROVIDED -eq 1 ]]; then
+				local password password_again
+				while true; do
+					read -r -p "Enter the new password for $path: " -s password || exit 1
+					echo
+					read -r -p "Retype the new password for $path: " -s password_again || exit 1
+					echo
+					if [[ "$password" == "$password_again" ]]; then
+						break
+					else
+						die "Error: the entered passwords do not match."
+					fi
+				done
+				_insert "$path" "$(echo "$content" | sed $'1c \\\n'"$(sed 's/[\/&]/\\&/g' <<<"$password")"$'\n')"
+			elif [[ $MULTLINE -eq 1 ]]; then
+				_insert "$path"
+			else
+				cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP "--in-place" || exit 1
+			fi
 		else
-			cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP "--in-place" || exit 1
+			cmd_edit "$path"
 		fi
 	done
 }
@@ -151,11 +156,12 @@ MULTLINE=0
 CLIP=""
 SYMBOLS=""
 PROVIDED=0
+EDIT=0
 LENGTH="$GENERATED_LENGTH"
 
 # Getopt options
-small_arg="hVcfnl:pm"
-long_arg="help,version,clip,force,no-symbols,length:,provide,multiline"
+small_arg="hVcfnl:pme"
+long_arg="help,version,clip,force,no-symbols,length:,provide,multiline,edit"
 opts="$($GETOPT -o $small_arg -l $long_arg -n "$PROGRAM $COMMAND" -- "$@")"
 err=$?
 eval set -- "$opts"
@@ -166,6 +172,7 @@ while true; do case $1 in
 	-p|--provide) PROVIDED=1; shift ;;
 	-l|--length) LENGTH="$2"; shift 2 ;;
 	-m|--multiline) MULTLINE=1; shift ;;
+	-e|--edit) EDIT=1; shift ;;
 	-h|--help) shift; cmd_update_usage; exit 0 ;;
 	-V|--version) shift; cmd_update_version; exit 0 ;;
 	--) shift; break ;;

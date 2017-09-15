@@ -44,6 +44,10 @@ test_expect_success 'Updating a multiline password' '
     echo -e "dummypass\nlogin: dummylogin" | _pass update --force --multiline Business/site.eu
     '
 
+test_expect_success 'Updating a password by editing it' '
+    _pass update --edit Business/site.eu
+    '
+
 test_expect_success 'Testing corner cases' '
     test_must_fail _pass update --not-an-option &&
     test_must_fail _pass update --force --provide --clip Email/zx2c4.com &&
