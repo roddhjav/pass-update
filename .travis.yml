@@ -5,7 +5,7 @@ language: bash
 
 env:
   global:
-    - PASS_VERSION=1.7
+    - PASS_VERSION=1.7 KCOV_VERSION=33
 
 addons:
   apt:
@@ -22,16 +22,13 @@ before_script:
   - wget https://git.zx2c4.com/password-store/snapshot/password-store-$PASS_VERSION.tar.xz
   - tar -xf password-store-$PASS_VERSION.tar.xz
   - sudo make --directory=password-store-$PASS_VERSION install
-  - wget https://github.com/SimonKagstrom/kcov/archive/v33.tar.gz &&
-    tar xzf v33.tar.gz &&
-    cd kcov-33 &&
-    mkdir build &&
-    cd build &&
-    cmake .. &&
-    make &&
-    sudo make install &&
-    cd ../.. &&
-    rm -rf kcov-33
+  - wget https://github.com/SimonKagstrom/kcov/archive/v$KCOV_VERSION.tar.gz
+  - tar xzf v$KCOV_VERSION.tar.gz
+  - mkdir kcov-$KCOV_VERSION/build
+  - cd kcov-$KCOV_VERSION/build && cmake .. && cd ../..
+  - make --directory=kcov-$KCOV_VERSION/build
+  - sudo make install --directory=kcov-$KCOV_VERSION/build
+  - rm -rf kcov-$KCOV_VERSION
 
 script:
   - make lint
