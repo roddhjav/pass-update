@@ -4,10 +4,9 @@ A [pass][pass] extension that provides an easy flow for updating passwords.
 
 ## Description
 `pass update` extends the pass utility with an update command providing
-an easy flow for updating passwords. It allows you to update all the passwords
-in a folder or to provide the extact list of password to update. Moreover, you
-can select how to update your passwords by automaticaly generating new passwords
-or manually setting your own.
+an easy flow for updating passwords. It supports path, directory and wildcard
+update. Moreover, you can select how to update your passwords by automaticaly
+generating new passwords or manually setting your own.
 
 By default `pass update` prints the old password and wait for the user before
 generating a new one. This behavior can be changed using the provided options.

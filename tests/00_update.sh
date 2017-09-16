@@ -18,6 +18,11 @@ test_expect_success 'Updating multiple password' '
     _pass update --force Email/
     '
 
+test_expect_success "Testing bulkd update" "
+    _pass update --force Email/ &&
+    _pass update --force 'Business/*/login'
+    "
+
 test_expect_success 'Updating password with specific length' '
     _pass update --force --length=50 France/bank
     '

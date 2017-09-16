@@ -93,12 +93,19 @@ cmd_update() {
 
 	# Get a curated list of path to update
 	typeset -a paths=() passfiles=()
-	local path passfile passdir file
+	local path passfile passdir file tmpfile
 	for path in "$@"; do
 		check_sneaky_paths "$path"
 		passfile="$PREFIX/${path%/}.gpg"
 		passdir="$PREFIX/${path%/}"
-		if [[ -d "$passdir" ]]; then
+		if [[ $path =~ [*] ]]; then
+			for file in $PREFIX/$path.gpg; do
+				if [[ -f $file ]]; then
+					tmpfile="${file#$PREFIX/}"
+					paths+=("${tmpfile%.gpg}")
+				fi
+			done
+		elif [[ -d "$passdir" ]]; then
 			passfiles=($(find "$passdir" -type f -iname '*.gpg' -printf "$path/%P\n"))
 			for file in "${passfiles[@]}"; do paths+=("${file%.gpg}") ; done
 		else
