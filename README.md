@@ -101,10 +101,16 @@ sudo make install
 
 **Generic Linux**
 ```sh
-wget https://github.com/roddhjav/pass-update/archive/v2.0.tar.gz
-tar xzf v2.0.tar.gz
+wget https://github.com/roddhjav/pass-update/releases/download/v2.0/pass-update-2.0.tar.gz
+tar xzf pass-update-2.0.tar.gz
 cd pass-update-2.0
 sudo make install
+```
+
+Releases and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
+You should verify the signature:
+```
+gpg --verify pass-update-2.0.tar.gz.sig
 ```
 
 **ArchLinux**
@@ -112,6 +118,13 @@ sudo make install
 `pass-update` is available in the [Arch User Repository][aur].
 ```sh
 pacaur -S pass-update
+```
+
+**OS X**
+```
+git clone https://github.com/roddhjav/pass-update/
+cd pass-update
+make install PREFIX=/usr/local
 ```
 
 **Requirements**
@@ -149,4 +162,5 @@ Feedback, contributors, pull requests are all very welcome.
 [clima-url]: https://codeclimate.com/github/roddhjav/pass-update
 
 [pass]: https://www.passwordstore.org/
+[keys]: https://pujol.io/keys
 [aur]: https://aur.archlinux.org/packages/pass-update
