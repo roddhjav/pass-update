@@ -8,7 +8,7 @@ an easy flow for updating passwords. It supports path, directory and wildcard
 update. Moreover, you can select how to update your passwords by automaticaly
 generating new passwords or manually setting your own.
 
-By default `pass update` prints the old password and wait for the user before
+By default `pass update` prints the old password and waits for the user before
 generating a new one. This behavior can be changed using the provided options.
 
 ## Usage
