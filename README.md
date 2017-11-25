@@ -1,4 +1,4 @@
-# pass update [![build][build-img]][build-url] [![coverage][cover-img]][cover-url] [![climate][clima-img]][clima-url]
+# pass update [![build][build-img]][build-url] [![coverage][cover-img]][cover-url] [![codacy][codac-img]][codac-url]
 
 A [pass][pass] extension that provides an easy flow for updating passwords.
 
@@ -159,8 +159,8 @@ Feedback, contributors, pull requests are all very welcome.
 [build-url]: https://travis-ci.org/roddhjav/pass-update
 [cover-img]: https://coveralls.io/repos/github/roddhjav/pass-update/badge.svg?branch=master
 [cover-url]: https://coveralls.io/github/roddhjav/pass-update?branch=master
-[clima-img]: https://codeclimate.com/github/roddhjav/pass-update/badges/gpa.svg
-[clima-url]: https://codeclimate.com/github/roddhjav/pass-update
+[codac-img]: https://api.codacy.com/project/badge/Grade/1eccb02d0b9a4c3d834c01b8f67b6cb4
+[codac-url]: https://www.codacy.com/app/roddhjav/pass-update
 
 [pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys

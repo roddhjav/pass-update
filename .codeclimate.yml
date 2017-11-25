@@ -1,6 +1,0 @@
-engines:
-  shellcheck:
-    enabled: true
-ratings:
-  paths:
-  - "update.bash"
