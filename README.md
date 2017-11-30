@@ -1,6 +1,15 @@
-# pass update [![build][build-img]][build-url] [![coverage][cover-img]][cover-url] [![codacy][codac-img]][codac-url]
+<h1 align="center">pass update</h1>
 
-A [pass][pass] extension that provides an easy flow for updating passwords.
+<p align="center">
+<a href="https://travis-ci.org/roddhjav/pass-update"><img src="https://img.shields.io/travis/roddhjav/pass-update/master.svg" alt="Build Status" /></a>
+<a href="https://coveralls.io/github/roddhjav/pass-update"><img src="https://img.shields.io/coveralls/roddhjav/pass-update/master.svg" alt="Code Coverage" /></a>
+<a href="https://www.codacy.com/app/roddhjav/pass-update"><img src="https://img.shields.io/codacy/grade/1eccb02d0b9a4c3d834c01b8f67b6cb4/master.svg" alt="Code Quality" /></a>
+<a href="https://github.com/roddhjav/pass-update/releases/latest"><img src="https://img.shields.io/github/release/roddhjav/pass-update.svg?maxAge=600" alt="Last Release" /></a>
+</p>
+
+<p align="center">
+A <a href="https://www.passwordstore.org/">pass</a> extension that provides an easy flow for updating passwords.
+</p>
 
 ## Description
 `pass update` extends the pass utility with an update command providing
@@ -155,14 +164,6 @@ Feedback, contributors, pull requests are all very welcome.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-[build-img]: https://travis-ci.org/roddhjav/pass-update.svg?branch=master
-[build-url]: https://travis-ci.org/roddhjav/pass-update
-[cover-img]: https://coveralls.io/repos/github/roddhjav/pass-update/badge.svg?branch=master
-[cover-url]: https://coveralls.io/github/roddhjav/pass-update?branch=master
-[codac-img]: https://api.codacy.com/project/badge/Grade/1eccb02d0b9a4c3d834c01b8f67b6cb4
-[codac-url]: https://www.codacy.com/app/roddhjav/pass-update
-
-[pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
 [aur]: https://aur.archlinux.org/packages/pass-update
 [releases]: https://github.com/roddhjav/pass-update/releases
