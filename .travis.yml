@@ -18,8 +18,7 @@ addons:
       - cmake
 
 before_script:
-  - export PREFIX=$HOME/.bin/usr
-  - export PATH="$PATH:$HOME/.bin/usr/bin"
+  - export PREFIX=$HOME/.bin/usr PATH="$PATH:$HOME/.bin/usr/bin"
   - wget https://git.zx2c4.com/password-store/snapshot/password-store-$PASS_VERSION.tar.xz
   - tar -xf password-store-$PASS_VERSION.tar.xz
   - make --directory=password-store-$PASS_VERSION install
