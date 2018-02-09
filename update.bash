@@ -24,7 +24,7 @@ warning() { echo -e "Warning: ${*}" >&2; }
 
 cmd_update_version() {
 	cat <<-_EOF
-	$PROGRAM $COMMAND $VERSION - A pass extension extension that provides an
+	$PROGRAM $COMMAND $VERSION - A pass extension that provides an
                   easy flow for updating passwords.
 	_EOF
 }
@@ -39,11 +39,11 @@ cmd_update_usage() {
             pass-names can refer either to password store path(s) or to
             directory.
 
-            It prints the old password and wait for the user before generating
-            a new one. This behavior can be changed using the provided options.
+            It prints the old password and waits for the user before generating
+            a new one. This behaviour can be changed using the provided options.
 
     	Options:
-            -c, --clip       Write the password in the clipboard.
+            -c, --clip       Write the password to the clipboard.
             -n, --no-symbols Do not use any non-alphanumeric characters.
             -l, --length     Provide a password length.
             -p, --provide    Let the user specify a password by hand.

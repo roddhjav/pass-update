@@ -10,11 +10,11 @@ passwords.
 .SH DESCRIPTION
 \fBpass update\fP extends the pass utility with an update command providing
 an easy flow for updating passwords. It supports path, directory and wildcard
-update. Moreover, you can select how to update your passwords by automaticaly
+update. Moreover, you can select how to update your passwords by automatically
 generating new passwords or manually setting your own.
 
 By default \fBpass update\fP prints the old password and wait for the user before
-generating a new one. This behavior can be changed using the provided options.
+generating a new one. This behaviour can be changed using the provided options.
 
 .SH COMMAND
 .TP
@@ -26,9 +26,9 @@ Update the password provided: print the password and wait for the user to
 generate a new one.
 
 .I pass-names
-can refer either to password store path(s) or to directory. Both path and
+can refer either to password store path(s) or directory. Both path and
 directory can be given in the same command. When updating a directory, all the
-password in this directory are updated. Wildcard update are supported by quoting
+passwords in this directory are updated. Wildcard update is supported by quoting
 \fI'*'\fP sign.
 
 Both old and newly generated password can optionally be written on the clipboard
@@ -44,7 +44,7 @@ If \fI--provide\fP or \fI-p\fP is specified, let the user specify a password by
 hand. The user will have to confirm the password.
 
 If \fI--multiline\fP or \fI-m\fP is specified, update a multiline password.
-Beware this option will ovewrite the full password file instead of updating
+Beware this option will overwrite the full password file instead of updating
 the password field.
 
 If \fI--edit\fP or \fI-e\fP is specified, edit the password using the default

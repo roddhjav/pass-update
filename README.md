@@ -17,13 +17,13 @@ an easy flow for updating passwords. It supports path, directory and wildcard
 update. Moreover, you can select how to update your passwords by automatically
 generating new passwords or manually setting your own.
 
-By default `pass update` prints the old password and waits for the user before
-generating a new one. This behavior can be changed using the provided options.
+By default, `pass update` prints the old password and waits for the user before
+generating a new one. This behaviour can be changed using the provided options.
 
 ## Usage
 
 ```
-pass update 2.0 - A pass extension extension that provides an
+pass update 2.0 - A pass extension that provides an
                   easy flow for updating passwords.
 
 Usage:
@@ -31,11 +31,11 @@ Usage:
             Provide an interactive solution to update a set of passwords.
             pass-names can refer either to password store path(s) or to directory.
 
-            It prints the old password and wait for the user before generating
-            a new one. This behavior can be changed using the provided options.
+            It prints the old password and waits for the user before generating
+            a new one. This behaviour can be changed using the provided options.
 
     	Options:
-            -c, --clip       Write the password in the clipboard.
+            -c, --clip       Write the password to the clipboard.
             -n, --no-symbols Do not use any non-alphanumeric characters.
             -l, --length     Provide a password length.
             -p, --provide    Let the user specify a password by hand.
@@ -139,7 +139,7 @@ pacaur -S pass-update # or your preferred AUR install method
 
 **Requirements**
 * `pass 1.7.0` or greater.
-* If you do not want to install this extension as system extension, you need to
+* If you do not want to install this extension as a system extension, you need to
 enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
 create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
 
