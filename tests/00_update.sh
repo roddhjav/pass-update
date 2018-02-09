@@ -63,7 +63,7 @@ test_expect_success 'Testing corner cases' '
 
 test_expect_success 'Testing help message' '
     _pass update --help | grep "pass update" &&
-    _pass update --version | grep "A pass extension extension that provides an"
+    _pass update --version | grep "A pass extension that provides an"
     '
 
 test_done
