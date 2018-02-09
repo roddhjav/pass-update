@@ -14,7 +14,7 @@ A <a href="https://www.passwordstore.org/">pass</a> extension that provides an e
 ## Description
 `pass update` extends the pass utility with an update command providing
 an easy flow for updating passwords. It supports path, directory and wildcard
-update. Moreover, you can select how to update your passwords by automaticaly
+update. Moreover, you can select how to update your passwords by automatically
 generating new passwords or manually setting your own.
 
 By default `pass update` prints the old password and waits for the user before
