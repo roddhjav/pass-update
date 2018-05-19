@@ -128,7 +128,8 @@ cmd_update() {
 			# Ask user for confirmation
 			if [[ $YES -eq 0 ]]; then
 				[[ $PROVIDED -eq 1 || $MULTLINE -eq 1 ]] && verb="provide" || verb="generate"
-				yesno "Are you ready to $verb a new password?"
+				read -r -p "Are you ready to $verb a new password? [y/N] " response
+                [[ $response == [yY] ]] || continue
 			fi
 
 			# Update the password
