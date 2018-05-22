@@ -1,14 +1,21 @@
 <h1 align="center">pass update</h1>
-
 <p align="center">
-<a href="https://travis-ci.org/roddhjav/pass-update"><img src="https://img.shields.io/travis/roddhjav/pass-update/master.svg" alt="Build Status" /></a>
-<a href="https://coveralls.io/github/roddhjav/pass-update"><img src="https://img.shields.io/coveralls/roddhjav/pass-update/master.svg" alt="Code Coverage" /></a>
-<a href="https://www.codacy.com/app/roddhjav/pass-update"><img src="https://img.shields.io/codacy/grade/1eccb02d0b9a4c3d834c01b8f67b6cb4/master.svg" alt="Code Quality" /></a>
-<a href="https://github.com/roddhjav/pass-update/releases/latest"><img src="https://img.shields.io/github/release/roddhjav/pass-update.svg?maxAge=600" alt="Last Release" /></a>
+    <a href="https://travis-ci.org/roddhjav/pass-update">
+        <img src="https://img.shields.io/travis/roddhjav/pass-update/master.svg"
+             alt="Build Status" /></a>
+    <a href="https://coveralls.io/github/roddhjav/pass-update">
+        <img src="https://img.shields.io/coveralls/roddhjav/pass-update/master.svg"
+             alt="Code Coverage" /></a>
+    <a href="https://www.codacy.com/app/roddhjav/pass-update">
+        <img src="https://img.shields.io/codacy/grade/1eccb02d0b9a4c3d834c01b8f67b6cb4/master.svg"
+             alt="Code Quality" /></a>
+    <a href="https://github.com/roddhjav/pass-update/releases/latest">
+        <img src="https://img.shields.io/github/release/roddhjav/pass-update.svg?maxAge=600"
+             alt="Last Release" /></a>
 </p>
-
 <p align="center">
-A <a href="https://www.passwordstore.org/">pass</a> extension that provides an easy flow for updating passwords.
+    A <a href="https://www.passwordstore.org/">pass</a> extension that provides
+    an easy flow for updating passwords.
 </p>
 
 ## Description
@@ -101,18 +108,21 @@ Retype the new password for Business/site.com:
 
 ## Installation
 
+**Requirements**
+* `pass 1.7.0` or greater.
+
 **From git**
 ```sh
 git clone https://github.com/roddhjav/pass-update/
 cd pass-update
-sudo make install
+sudo make install  # For OSX: make install PREFIX=/usr/local
 ```
 
-**OS X**
+**ArchLinux**
+
+`pass-update` is available in the [Arch User Repository][aur].
 ```sh
-git clone https://github.com/roddhjav/pass-update/
-cd pass-update
-make install PREFIX=/usr/local
+pacaur -S pass-update  # or your preferred AUR install method
 ```
 
 **Stable version**
@@ -120,28 +130,16 @@ make install PREFIX=/usr/local
 wget https://github.com/roddhjav/pass-update/releases/download/v2.0/pass-update-2.0.tar.gz
 tar xzf pass-update-2.0.tar.gz
 cd pass-update-2.0
-sudo make install
+sudo make install  # For OSX: make install PREFIX=/usr/local
 ```
 
 [Releases][releases] and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
 You should check the key's fingerprint and verify the signature:
 ```sh
+wget https://github.com/roddhjav/pass-update/releases/download/v2.0/pass-update-2.0.tar.gz.asc
 gpg --recv-keys 06A26D531D56C42D66805049C5469996F0DF68EC
 gpg --verify pass-update-2.0.tar.gz.sig
 ```
-
-**ArchLinux**
-
-`pass-update` is available in the [Arch User Repository][aur].
-```sh
-pacaur -S pass-update # or your preferred AUR install method
-```
-
-**Requirements**
-* `pass 1.7.0` or greater.
-* If you do not want to install this extension as a system extension, you need to
-enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
-create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
 
 ## Contribution
 Feedback, contributors, pull requests are all very welcome.
