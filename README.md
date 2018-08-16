@@ -1,16 +1,16 @@
 <h1 align="center">pass update</h1>
 <p align="center">
     <a href="https://travis-ci.org/roddhjav/pass-update">
-        <img src="https://img.shields.io/travis/roddhjav/pass-update/master.svg"
+        <img src="https://img.shields.io/travis/roddhjav/pass-update/master.svg?style=flat-square"
              alt="Build Status" /></a>
     <a href="https://coveralls.io/github/roddhjav/pass-update">
-        <img src="https://img.shields.io/coveralls/roddhjav/pass-update/master.svg"
+        <img src="https://img.shields.io/coveralls/roddhjav/pass-update/master.svg?style=flat-square"
              alt="Code Coverage" /></a>
     <a href="https://www.codacy.com/app/roddhjav/pass-update">
-        <img src="https://img.shields.io/codacy/grade/1eccb02d0b9a4c3d834c01b8f67b6cb4/master.svg"
+        <img src="https://img.shields.io/codacy/grade/1eccb02d0b9a4c3d834c01b8f67b6cb4/master.svg?style=flat-square"
              alt="Code Quality" /></a>
     <a href="https://github.com/roddhjav/pass-update/releases/latest">
-        <img src="https://img.shields.io/github/release/roddhjav/pass-update.svg?maxAge=600"
+        <img src="https://img.shields.io/github/release/roddhjav/pass-update.svg?maxAge=600&style=flat-square"
              alt="Last Release" /></a>
 </p>
 <p align="center">
