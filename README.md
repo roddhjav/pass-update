@@ -24,6 +24,10 @@ an easy flow for updating passwords. It supports path, directory and wildcard
 update. Moreover, you can select how to update your passwords by automatically
 generating new passwords or manually setting your own.
 
+`pass update` assumes that the first line of the password file is the password
+and so only ever updates the first line unless the `--multiline` option is
+specified.
+
 By default, `pass update` prints the old password and waits for the user before
 generating a new one. This behaviour can be changed using the provided options.
 
@@ -40,6 +44,9 @@ Usage:
 
             It prints the old password and waits for the user before generating
             a new one. This behaviour can be changed using the provided options.
+
+            Only the first line of a password file is updated unless the
+            --multiline opiton is specified.
 
     	Options:
             -c, --clip       Write the password to the clipboard.
