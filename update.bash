@@ -42,6 +42,9 @@ cmd_update_usage() {
             It prints the old password and waits for the user before generating
             a new one. This behaviour can be changed using the provided options.
 
+            Only the first line of a password file is updated unless the
+            --multiline opiton is specified.
+
     	Options:
             -c, --clip       Write the password to the clipboard.
             -n, --no-symbols Do not use any non-alphanumeric characters.
