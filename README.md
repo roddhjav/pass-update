@@ -118,18 +118,31 @@ Retype the new password for Business/site.com:
 **Requirements**
 * `pass 1.7.0` or greater.
 
+**ArchLinux**
+
+`pass-update` is available in the [Arch User Repository][aur].
+```sh
+yay -S pass-update  # or your preferred AUR install method
+```
+
+**NixOS**
+```sh
+nix-env -iA nixos.passExtensions.pass-update
+```
+
+**OSX**
+
+`pass-import` is available with Homebrew using a [third-party][brew-tap] repository
+```sh
+brew tap simplydanny/pass-extensions
+brew install pass-update
+```
+
 **From git**
 ```sh
 git clone https://github.com/roddhjav/pass-update/
 cd pass-update
 sudo make install  # For OSX: make install PREFIX=/usr/local
-```
-
-**ArchLinux**
-
-`pass-update` is available in the [Arch User Repository][aur].
-```sh
-pacaur -S pass-update  # or your preferred AUR install method
 ```
 
 **Stable version**
@@ -173,3 +186,4 @@ Feedback, contributors, pull requests are all very welcome.
 [aur]: https://aur.archlinux.org/packages/pass-update
 [releases]: https://github.com/roddhjav/pass-update/releases
 [keybase]: https://keybase.io/roddhjav
+[brew-tap]: https://github.com/SimplyDanny/homebrew-pass-extensions
