@@ -33,17 +33,12 @@ EXT_HOME="$(dirname "$TEST_HOME")"
 
 # Check dependencies
 _die() { echo "${@}" && exit 1; }
-PASS="$(which pass)"; GPG="$(which gpg)"; COVERAGE=true; GIT=false
+PASS="$(command -v pass)"; GPG="$(command -v gpg)"; COVERAGE=true; GIT=false
 [[ -e "$PASS" ]] || _die "Could not find pass command"
-if [[ ! -e "$GPG" ]]; then
-	if which gpg2 &>/dev/null; then
-		GPG="gpg2"
-	else
-		_die "Could not find gpg command"
-	fi
-fi
+[[ -e "$GPG" ]] || _die "Could not find gpg command"
+
 if [[ $COVERAGE == true ]]; then
-	KCOV="$(which kcov)"; [[ -e "$KCOV" ]] || _die "Could not find kcov command"
+	KCOV="$(command -v kcov)"; [[ -e "$KCOV" ]] || _die "Could not find kcov command"
 	_pass() { "$KCOV" --exclude-path="$PASS,$TEST_HOME/fake-editor" "$TMP/$0" "$PASS" "${@}"; }
 else
 	_pass() { "$PASS" "${@}"; }

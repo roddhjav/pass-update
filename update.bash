@@ -91,7 +91,7 @@ cmd_update() {
 	# Sanity checks
 	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-e] [-f] pass-names"
 	[[ ! $LENGTH =~ ^[0-9]+$ ]] && die "Error: pass-length \"$LENGTH\" must be a number."
-	[[ ! -z "$CLIP" && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --clip and --provide together"
+	[[ -n "$CLIP" && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --clip and --provide together"
 	[[ $MULTLINE -eq 1 && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --multiline and --provide together"
 
 	# Get a curated list of path to update
@@ -109,7 +109,7 @@ cmd_update() {
 				fi
 			done
 		elif [[ -d "$passdir" ]]; then
-			passfiles=($(find "$passdir" -type f -iname '*.gpg' -printf "$path/%P\n"))
+			mapfile -t passfiles < <(find "$passdir" -type f -iname '*.gpg' -printf "$path/%P\n")
 			for file in "${passfiles[@]}"; do paths+=("${file%.gpg}") ; done
 		else
 			[[ -f $passfile ]] && paths+=("$path") || warning "$path is not in the password store."
