@@ -32,7 +32,7 @@ before_script:
 
 script:
   - make lint
-  - make tests
+  - make tests COVERAGE=true
 
 notifications:
   email: false

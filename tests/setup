@@ -33,7 +33,7 @@ EXT_HOME="$(dirname "$TEST_HOME")"
 
 # Check dependencies
 _die() { echo "${@}" && exit 1; }
-PASS="$(command -v pass)"; GPG="$(command -v gpg)"; COVERAGE=true; GIT=false
+PASS="$(command -v pass)"; GPG="$(command -v gpg)"; GIT=false
 [[ -e "$PASS" ]] || _die "Could not find pass command"
 [[ -e "$GPG" ]] || _die "Could not find gpg command"
 
