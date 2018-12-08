@@ -27,8 +27,8 @@
 # shellcheck disable=SC1091
 
 # Project directory
-TEST_HOME="$(pwd)"
-EXT_HOME="$(dirname "$TEST_HOME")"
+TESTS_HOME="$(pwd)"
+PROJECT_HOME="$(dirname "$TESTS_HOME")"
 
 
 # Check dependencies
@@ -36,18 +36,22 @@ _die() { echo "${@}" && exit 1; }
 PASS="$(command -v pass)"; GPG="$(command -v gpg)"; GIT=false
 [[ -e "$PASS" ]] || _die "Could not find pass command"
 [[ -e "$GPG" ]] || _die "Could not find gpg command"
-
-if [[ $COVERAGE == true ]]; then
-	KCOV="$(command -v kcov)"; [[ -e "$KCOV" ]] || _die "Could not find kcov command"
-	_pass() { "$KCOV" --exclude-path="$PASS,$TEST_HOME/fake-editor" "$TMP/$0" "$PASS" "${@}"; }
+if $COVERAGE; then
+	KCOV="$(command -v kcov)"
+	[[ -e "$KCOV" ]] || _die "Could not find kcov command"
+	_pass() { "$KCOV" --include-path="$EXT_HOME/" \
+					  --exclude-path="$PASS,$TESTS_HOME/fake-editor" \
+					  "$TMP/$(basename "$0")" "$PASS" "${@}"
+	}
 else
 	_pass() { "$PASS" "${@}"; }
 fi
 
 
 # sharness config
+export SHARNESS_TEST_DIRECTORY="$TESTS_HOME"
+export SHARNESS_TEST_SRCDIR="$PROJECT_HOME"
 source ./sharness
-export TMP="/tmp/pass-update"
 
 
 #  Prepare pass config vars
@@ -68,12 +72,12 @@ unset GNUPGHOME
 unset EDITOR
 
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
-export PASSWORD_STORE_EXTENSIONS_DIR="$EXT_HOME"
+export PASSWORD_STORE_EXTENSIONS_DIR="$PROJECT_HOME"
 
 
 # GnuPG config
 unset GPG_AGENT_INFO
-export GNUPGHOME="$TEST_HOME/gnupg/"
+export GNUPGHOME="$TESTS_HOME/gnupg/"
 export KEY1="D4C78DB7920E1E27F5416B81CC9DB947CF90C77B"
 export KEY2="70BD448330ACF0653645B8F2B4DDBFF0D774A374"
 export KEY3="62EBE74BE834C2EC71E6414595C4B715EB7D54A8"
@@ -119,7 +123,7 @@ test_export() {
 	export testname="$1"
 	export PASSWORD_STORE_DIR="$TMP/${testname}-store"
 	export PASSWORD_STORE_CLIP_TIME="1"
-	export PATH="$TEST_HOME:$PATH"
+	export PATH="$TESTS_HOME:$PATH"
 	export EDITOR="fake-editor"
 	export GIT_DIR="$PASSWORD_STORE_DIR/.git"
 	export GIT_WORK_TREE="$PASSWORD_STORE_DIR"
@@ -132,4 +136,4 @@ test_xclip() {
 
 
 # Check for auxiliary programs
-test_xclip && test_set_prereq XCLIP
+# test_xclip && test_set_prereq XCLIP

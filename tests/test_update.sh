@@ -2,8 +2,8 @@
 # shellcheck disable=SC2016,SC1091
 
 export test_description="Testing pass update."
-
-source ./setup
+cd tests
+source ./commons.sh
 
 test_cleanup
 test_export "update"
@@ -59,11 +59,6 @@ test_expect_success 'Testing corner cases' '
     test_must_fail _pass update --force --length number Email/zx2c4.com &&
     test_must_fail _pass update --force --provide --multiline Email/zx2c4.com &&
     _pass update --force Business/site1.com Business/site2.com Email/site3.com Socials/
-    '
-
-test_expect_success 'Testing help message' '
-    _pass update --help | grep "pass update" &&
-    _pass update --version | grep "2.0"
     '
 
 test_done

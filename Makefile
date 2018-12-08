@@ -4,7 +4,6 @@ DESTDIR ?=
 LIBDIR ?= $(PREFIX)/lib
 SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
 MANDIR ?= $(PREFIX)/share/man
-COVERAGE ?= false
 
 all:
 	@echo "pass-$(PROG) is a shell script and does not need compilation, it can be simply executed."
@@ -28,11 +27,24 @@ uninstall:
 		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash" \
 		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
 
-tests:
-	make -C tests
+
+COVERAGE ?= false
+TMP ?= /tmp/pass-update
+PASS_TEST_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
+T = $(sort $(wildcard tests/test_*.sh))
+export COVERAGE TMP
+
+tests: $(T)
+	@tests/aggregate-coverage
+
+$(T):
+	@$@ $(PASS_TEST_OPTS)
 
 lint:
-	shellcheck -s bash $(PROG).bash
+	shellcheck --shell=bash $(PROG).bash tests/commons.sh
+
+clean:
+	@rm -vrf tests/test-results/ tests/gnupg/random_seed
 
 
-.PHONY: install uninstall tests lint
+.PHONY: install uninstall tests $(T) lint clean
