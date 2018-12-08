@@ -15,6 +15,11 @@ bash:
   script:
     - make tests
 
+.only: &only
+  only:
+   - tags
+   - web
+
 archlinux:
   image: archlinux/base
   before_script:
@@ -26,6 +31,7 @@ ubuntu:
   before_script:
     - apt-get update -q && apt-get install -y make pass grep git
   <<: *script
+  <<: *only
 
 debian:
   image: debian
@@ -35,12 +41,14 @@ debian:
     - tar -xf password-store-1.7.3.tar.xz
     - make --directory=password-store-1.7.3 install
   <<: *script
+  <<: *only
 
 fedora:
   image: fedora
   before_script:
     - dnf -y install make gpg pass grep git --setopt=install_weak_deps=False
   <<: *script
+  <<: *only
 
 centos:
   image: centos
@@ -50,6 +58,7 @@ centos:
     - tar -xf password-store-1.7.3.tar.xz
     - make --directory=password-store-1.7.3 install
   <<: *script
+  <<: *only
 
 opensuse:
   image: opensuse
@@ -59,3 +68,4 @@ opensuse:
     - tar -xf password-store-1.7.3.tar.xz
     - make --directory=password-store-1.7.3 install
   <<: *script
+  <<: *only
