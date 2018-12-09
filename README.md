@@ -132,7 +132,7 @@ nix-env -iA nixos.passExtensions.pass-update
 
 **OSX**
 
-`pass-import` is available with Homebrew using a [third-party][brew-tap] repository
+`pass-update` is available with Homebrew using a [third-party][brew-tap] repository
 ```sh
 brew tap simplydanny/pass-extensions
 brew install pass-update
