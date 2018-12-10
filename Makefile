@@ -49,7 +49,7 @@ $(T):
 	@$@ $(PASS_TEST_OPTS)
 
 lint:
-	shellcheck --shell=bash $(PROG).bash tests/commons.sh
+	shellcheck --shell=bash $(PROG).bash tests/commons.sh tests/aggregate-coverage
 
 clean:
 	@rm -vrf tests/test-results/ tests/gnupg/random_seed

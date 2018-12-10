@@ -24,7 +24,7 @@
 #   $TEST_HOME	This folder
 #
 
-# shellcheck disable=SC1091
+# shellcheck disable=SC1091,SC2016
 
 # Project directory
 TESTS_HOME="$(pwd)"
@@ -42,7 +42,7 @@ if $COVERAGE; then
 	_pass() {
 		"$KCOV" --exclude-line='clip "$(echo,esac done' \
 		        --include-path="$PROJECT_HOME/update.bash" \
-		        "$TMP/$(basename $0)" "$PASS" "${@}"
+		        "$TMP/$(basename "$0")" "$PASS" "${@}"
 	}
 else
 	_pass() { "$PASS" "${@}"; }
