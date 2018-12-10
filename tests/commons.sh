@@ -39,9 +39,10 @@ PASS="$(command -v pass)"; GPG="$(command -v gpg)"; GIT=false
 if $COVERAGE; then
 	KCOV="$(command -v kcov)"
 	[[ -e "$KCOV" ]] || _die "Could not find kcov command"
-	_pass() { "$KCOV" --include-path="$EXT_HOME/" \
-					  --exclude-path="$PASS,$TESTS_HOME/fake-editor" \
-					  "$TMP/$(basename "$0")" "$PASS" "${@}"
+	_pass() {
+		"$KCOV" --exclude-line='clip "$(echo,esac done' \
+		        --include-path="$PROJECT_HOME/update.bash" \
+		        "$TMP/$(basename $0)" "$PASS" "${@}"
 	}
 else
 	_pass() { "$PASS" "${@}"; }
@@ -136,4 +137,4 @@ test_xclip() {
 
 
 # Check for auxiliary programs
-# test_xclip && test_set_prereq XCLIP
+test_xclip && test_set_prereq XCLIP

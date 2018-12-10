@@ -35,6 +35,7 @@ uninstall:
 		"$(DESTDIR)$(ZSHCOMPDIR)/_pass-$(PROG)" \
 		"$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)"
 
+
 COVERAGE ?= false
 TMP ?= /tmp/pass-update
 PASS_TEST_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
