@@ -61,4 +61,9 @@ test_expect_success 'Testing corner cases' '
     _pass update --force Business/site1.com Business/site2.com Email/site3.com Socials/
     '
 
+test_expect_success 'Testing help message' '
+    _pass update --help &&
+    _pass update --version
+    '
+
 test_done
