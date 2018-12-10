@@ -153,7 +153,7 @@ cmd_update() {
 			elif [[ $MULTLINE -eq 1 ]]; then
 				_insert "$path"
 			else
-				cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP "--in-place" || exit 1
+				cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP '--in-place' || exit 1
 			fi
 		else
 			cmd_edit "$path"
