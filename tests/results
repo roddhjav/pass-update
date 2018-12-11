@@ -24,7 +24,6 @@ if $COVERAGE; then
 	KCOV="$(command -v kcov)"
 	[[ -e "$KCOV" ]] || _die "Could not find kcov command"
 	mapfile -t COVERED < <(find "$TMP"/*.sh -maxdepth 0 -type d)
-	echo "${COVERED[@]}"
 	[[ -z "$TRAVIS_JOB_ID" ]] || OPTS=("--coveralls-id=$TRAVIS_JOB_ID")
 	"$KCOV" "${OPTS[@]}" --merge "$TMP/kcov" "${COVERED[@]}"
 fi
