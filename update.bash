@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# shellcheck disable=SC2086,SC2015
+# shellcheck disable=SC2086
 
 readonly VERSION="2.0"
 
@@ -102,17 +102,21 @@ cmd_update() {
 		passfile="$PREFIX/${path%/}.gpg"
 		passdir="$PREFIX/${path%/}"
 		if [[ $path =~ [*] ]]; then
-			for file in $PREFIX/$path.gpg; do
-				if [[ -f $file ]]; then
+			for file in "$PREFIX/"$path.gpg; do
+				if [[ -f "$file" ]]; then
 					tmpfile="${file#$PREFIX/}"
 					paths+=("${tmpfile%.gpg}")
 				fi
 			done
 		elif [[ -d "$passdir" ]]; then
 			mapfile -t passfiles < <(find "$passdir" -type f -iname '*.gpg' -printf "$path/%P\n")
-			for file in "${passfiles[@]}"; do paths+=("${file%.gpg}") ; done
+			for file in "${passfiles[@]}"; do
+				paths+=("${file%.gpg}")
+			done
+		elif [[ -f $passfile ]]; then
+			paths+=("$path")
 		else
-			[[ -f $passfile ]] && paths+=("$path") || warning "$path is not in the password store."
+			warning "$path is not in the password store."
 		fi
 	done
 
