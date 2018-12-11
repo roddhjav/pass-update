@@ -34,7 +34,8 @@ cmd_update_usage() {
 	echo
 	cat <<-_EOF
 	Usage:
-        $PROGRAM update [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-e] [-f] pass-names
+        $PROGRAM update [-h] [-n] [-l <s>] [-c | -p] [-p | -m]
+                    [-e <r>] [-i <r>] [-E] [-f] pass-names
             Provide an interactive solution to update a set of passwords.
             pass-names can refer either to password store path(s) or to
             directory.
@@ -46,15 +47,17 @@ cmd_update_usage() {
             --multiline opiton is specified.
 
     	Options:
-            -c, --clip       Write the password to the clipboard.
-            -n, --no-symbols Do not use any non-alphanumeric characters.
-            -l, --length     Provide a password length.
-            -p, --provide    Let the user specify a password by hand.
-            -m, --multiline  Update a multiline password.
-            -e, --edit       Edit the password using the default editor.
-            -f, --force      Force update.
-            -V, --version    Show version information.
-            -h, --help       Print this help message and exit.
+            -c, --clip        Write the password to the clipboard.
+            -n, --no-symbols  Do not use any non-alphanumeric characters.
+            -l, --length <s>  Provide a password length.
+            -p, --provide     Let the user specify a password by hand.
+            -m, --multiline   Update a multiline password.
+            -i, --include <r> Only update the password that match a regex.
+            -e, --exclude <r> Do not update password that macth a regex.
+            -E, --edit        Edit the password using the default editor.
+            -f, --force       Force update.
+            -V, --version     Show version information.
+            -h, --help        Print this help message and exit.
 
 	More information may be found in the pass-update(1) man page.
 	_EOF
@@ -89,7 +92,7 @@ _insert() {
 
 cmd_update() {
 	# Sanity checks
-	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-e] [-f] pass-names"
+	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-e <r>] [-i <r>] [-E] [-f] pass-names"
 	[[ ! $LENGTH =~ ^[0-9]+$ ]] && die "Error: pass-length \"$LENGTH\" must be a number."
 	[[ -n "$CLIP" && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --clip and --provide together"
 	[[ $MULTLINE -eq 1 && $PROVIDED -eq 1 ]] && die "Error: cannot use the options --multiline and --provide together"
@@ -120,16 +123,20 @@ cmd_update() {
 		fi
 	done
 
-	local content
+	local content oldpassword
 	for path in "${paths[@]}"; do
 		if [[ $EDIT -eq 0 ]]; then
+			content="$(_show "$path")"
+			oldpassword="$(echo "$content" | head -n 1)"
+			[[ -n "$INCLUDE" && ! "$oldpassword" =~ $INCLUDE ]] && continue
+			[[ -n "$EXCLUDE" && "$oldpassword" =~ $EXCLUDE ]] && continue
+
 			# Show old password
 			printf "\e[1m\e[37mChanging password for \e[4m%s\e[0m\n" "$path"
-			content="$(_show "$path")"
 			if [[ -z "$CLIP" ]]; then
 				printf "%s\n" "$content"
 			else
-				clip "$(echo "$content" | tail -n +1 | head -n 1)" "$path"
+				clip "$oldpassword" "$path"
 			fi
 
 			# Ask user for confirmation
@@ -172,11 +179,13 @@ CLIP=""
 SYMBOLS=""
 PROVIDED=0
 EDIT=0
+INCLUDE=""
+EXCLUDE=""
 LENGTH="$GENERATED_LENGTH"
 
 # Getopt options
-small_arg="hVcfnl:pme"
-long_arg="help,version,clip,force,no-symbols,length:,provide,multiline,edit"
+small_arg="hVcfnl:pmEi:e:"
+long_arg="help,version,clip,force,no-symbols,length:,provide,multiline,edit,include:,exclude:"
 opts="$($GETOPT -o $small_arg -l $long_arg -n "$PROGRAM $COMMAND" -- "$@")"
 err=$?
 eval set -- "$opts"
@@ -187,7 +196,9 @@ while true; do case $1 in
 	-p|--provide) PROVIDED=1; shift ;;
 	-l|--length) LENGTH="$2"; shift 2 ;;
 	-m|--multiline) MULTLINE=1; shift ;;
-	-e|--edit) EDIT=1; shift ;;
+	-i|--include) INCLUDE="$2"; shift 2 ;;
+	-e|--exclude) EXCLUDE="$2"; shift 2 ;;
+	-E|--edit) EDIT=1; shift ;;
 	-h|--help) shift; cmd_update_usage; exit 0 ;;
 	-V|--version) shift; cmd_update_version; exit 0 ;;
 	--) shift; break ;;

@@ -10,7 +10,9 @@ _pass-update () {
 		{-l,--length}'[provide a password length]' \
 		{-p,--provude}'[let the user specify a password by hand]' \
 		{-m,--multiline}'[update a multiline password]' \
-		{-e,--edit}'[edit the password using the default editor]' \
+		{-i,--include}'[only update the password that match a regex]' \
+		{-e,--exclude}'[do not update password that macth a regex]' \
+		{-E,--edit}'[edit the password using the default editor]' \
 		{-f,--force}'[force update]'
 	_pass_complete_entries_with_subdirs
 }

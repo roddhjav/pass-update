@@ -89,6 +89,9 @@ chmod 700 "$GNUPGHOME"
 
 # Predefined passwords to be updated
 export PASSWORD="$RANDOM"
+export PASSWORD_NUMBERS1="$RANDOM"
+export PASSWORD_NUMBERS2="$RANDOM"
+export PASSWORD_LETTERS=correcthorsebatterystaple
 
 
 # Test helpers
@@ -123,6 +126,12 @@ test_pass_populate() {
 	pass_insert France/bank "$PASSWORD"
 	pass_insert France/freebox "$PASSWORD"
 	pass_insert France/mobilephone "$PASSWORD"
+	pass_insert Include/numbers1 "$PASSWORD_NUMBERS1"
+	pass_insert Include/numbers2 "$PASSWORD_NUMBERS2"
+	pass_insert Include/letters "$PASSWORD_LETTERS"
+	pass_insert Exclude/numbers1 "$PASSWORD_NUMBERS1"
+	pass_insert Exclude/numbers2 "$PASSWORD_NUMBERS2"
+	pass_insert Exclude/letters "$PASSWORD_LETTERS"
 }
 
 test_password_is() {
