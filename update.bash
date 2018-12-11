@@ -18,7 +18,7 @@
 
 # shellcheck disable=SC2086
 
-readonly VERSION="2.0"
+readonly VERSION="2.1"
 
 warning() { echo -e "Warning: ${*}" >&2; }
 
