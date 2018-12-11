@@ -46,7 +46,7 @@ debian:
 fedora:
   image: fedora
   before_script:
-    - dnf -y install make gpg pass grep git find --setopt=install_weak_deps=False
+    - dnf -y install make gpg pass grep git findutils --setopt=install_weak_deps=False
   <<: *script
   <<: *only
 
