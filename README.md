@@ -3,6 +3,9 @@
     <a href="https://travis-ci.org/roddhjav/pass-update">
         <img src="https://img.shields.io/travis/roddhjav/pass-update/master.svg?style=flat-square"
              alt="Build Status" /></a>
+    <a href="https://gitlab.com/roddhjav/pass-update/pipelines">
+        <img src="https://gitlab.com/roddhjav/pass-update/badges/master/pipeline.svg"
+             alt="Pipeline Status" /></a>
     <a href="https://coveralls.io/github/roddhjav/pass-update">
         <img src="https://img.shields.io/coveralls/roddhjav/pass-update/master.svg?style=flat-square"
              alt="Code Coverage" /></a>
@@ -38,9 +41,11 @@ pass update 2.0 - A pass extension that provides an
                   easy flow for updating passwords.
 
 Usage:
-        pass update [-h] [-n] [-l <s>] [-c | -p] [-p | -m] [-e] [-f] pass-names
+        pass update [-h] [-n] [-l <s>] [-c | -p] [-p | -m]
+                    [-e <r>] [-i <r>] [-E] [-f] pass-names
             Provide an interactive solution to update a set of passwords.
-            pass-names can refer either to password store path(s) or to directory.
+            pass-names can refer either to password store path(s) or to
+            directory.
 
             It prints the old password and waits for the user before generating
             a new one. This behaviour can be changed using the provided options.
@@ -49,15 +54,17 @@ Usage:
             --multiline opiton is specified.
 
     	Options:
-            -c, --clip       Write the password to the clipboard.
-            -n, --no-symbols Do not use any non-alphanumeric characters.
-            -l, --length     Provide a password length.
-            -p, --provide    Let the user specify a password by hand.
-            -m, --multiline  Update a multiline password.
-            -e, --edit       Edit the password using the default editor.
-            -f, --force      Force update.
-            -V, --version    Show version information.
-            -h, --help       Print this help message and exit.
+            -c, --clip        Write the password to the clipboard.
+            -n, --no-symbols  Do not use any non-alphanumeric characters.
+            -l, --length <s>  Provide a password length.
+            -p, --provide     Let the user specify a password by hand.
+            -m, --multiline   Update a multiline password.
+            -i, --include <r> Only update the password that match a regex.
+            -e, --exclude <r> Do not update password that macth a regex.
+            -E, --edit        Edit the password using the default editor.
+            -f, --force       Force update.
+            -V, --version     Show version information.
+            -h, --help        Print this help message and exit.
 
 More information may be found in the pass-update(1) man page.
 ```
@@ -93,7 +100,7 @@ The generated password for Email/zx2c4.com is:
 
 **Set password length**
 ```
-pass update France/bank -l 50
+pass update -l 50 France/bank
 Changing password for France/bank
 9b'I;]b)>06xug!3.ME1*E+M3
 login: zx2c4
@@ -104,13 +111,18 @@ The generated password for France/bank is:
 
 **Provide a password by hand**
 ```
-pass update Business/site.com -p
+pass update -p Business/site.com
 Changing password for Business/site.com
 Zk=u]HqjUAKPZ$gM_,LuZV8J2
 login: zx2c4
 Are you ready to provide a new password? [y/N] y
 Enter the new password for Business/site.com:
 Retype the new password for Business/site.com:
+```
+
+**Do not update PIN code**
+```
+pass update --exclude '^[0-9]+$' /
 ```
 
 ## Installation
