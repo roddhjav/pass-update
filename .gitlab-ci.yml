@@ -8,7 +8,7 @@ bash:
   stage: lint
   image: koalaman/shellcheck-alpine
   script:
-    - shellcheck --shell=bash update.bash tests/commons.sh tests/aggregate-coverage
+    - shellcheck --shell=bash update.bash tests/commons tests/results
 
 .script: &script
   stage: test

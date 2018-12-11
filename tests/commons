@@ -40,7 +40,7 @@ if $COVERAGE; then
 	KCOV="$(command -v kcov)"
 	[[ -e "$KCOV" ]] || _die "Could not find kcov command"
 	_pass() {
-		"$KCOV" --exclude-line='clip ",esac done' \
+		"$KCOV" --exclude-line='esac done,clip' \
 		        --include-path="$PROJECT_HOME/update.bash" \
 		        "$TMP/$(basename "$0")" "$PASS" "${@}"
 	}
@@ -87,32 +87,52 @@ export KEY5="4D2AFBDE67C60F5999D143AFA6E073D439E5020C"
 chmod 700 "$GNUPGHOME"
 
 
+# Predefined passwords to be updated
+export PASSWORD="$RANDOM"
+
+
 # Test helpers
 
+pw() {
+	local length="${1:-25}" characters="${2:-[:graph:]}"
+	bash -c 'read -r -n "$0" pass < <(LC_ALL=C tr -dc "$1" < /dev/urandom) && echo $pass' "$length" "$characters"
+}
+
 pass_insert() {
-	echo -e "$2\nlogin: zx2c4" | pass insert --multiline --force "$1"
+	echo -e "$2\nlogin: $(pw 8 "[:lower:]")\nurl: $(basename "$1")" | \
+			pass insert --multiline --force "$1" &> /dev/null
 }
 
 test_pass_populate() {
-	pass init "$KEY1"
+	pass init "$KEY1" &> /dev/null
 	if $GIT; then
-		git config --global user.email "Pass-Automated-Testing-Suite@zx2c4.com"
-		git config --global user.name "Pass Automated Testing Suite"
-		pass git init
+		git config --global user.email "Pass-Automated-Testing-Suite@zx2c4.com" &> /dev/null
+		git config --global user.name "Pass Automated Testing Suite" &> /dev/null
+		pass git init &> /dev/null
 	fi
-	pass_insert "Business/site.com" "$RANDOM"
-	pass_insert "Business/site.eu" "$RANDOM"
-	pass_insert "Business/bitcoin/login" "$RANDOM"
-	pass_insert "Business/bitcoin/username" "$RANDOM"
-	pass_insert "Business/a space/login" "$RANDOM"
-	pass_insert "Business/a space/username" "$RANDOM"
-	pass_insert "Business/euro/login" "$RANDOM"
-	pass_insert "Business/euro/username" "$RANDOM"
-	pass_insert "Email/donenfeld.com" "$RANDOM"
-	pass_insert "Email/zx2c4.com" "$RANDOM"
-	pass_insert "France/bank" "$RANDOM"
-	pass_insert "France/freebox" "$RANDOM"
-	pass_insert "France/mobilephone" "$RANDOM"
+	pass_insert Business/site.com "$PASSWORD"
+	pass_insert Business/site.eu "$PASSWORD"
+	pass_insert Business/bitcoin/login "$PASSWORD"
+	pass_insert Business/bitcoin/username "$PASSWORD"
+	pass_insert 'Business/a space/login' "$PASSWORD"
+	pass_insert 'Business/a space/username' "$PASSWORD"
+	pass_insert Business/euro/login "$PASSWORD"
+	pass_insert Business/euro/username "$PASSWORD"
+	pass_insert Email/donenfeld.com "$PASSWORD"
+	pass_insert Email/zx2c4.com "$PASSWORD"
+	pass_insert France/bank "$PASSWORD"
+	pass_insert France/freebox "$PASSWORD"
+	pass_insert France/mobilephone "$PASSWORD"
+}
+
+test_password_is() {
+	newpasswd="$(pass show "$1" | head -n 1)"
+	[[ "$newpasswd" == "$2" ]]
+}
+
+test_password_is_not() {
+	newpasswd="$(pass show "$1" | head -n 1)"
+	[[ "$newpasswd" != "$2" ]]
 }
 
 test_cleanup() {

@@ -39,17 +39,17 @@ uninstall:
 COVERAGE ?= false
 TMP ?= /tmp/pass-update
 PASS_TEST_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
-T = $(sort $(wildcard tests/test_*.sh))
+T = $(sort $(wildcard tests/*.sh))
 export COVERAGE TMP
 
 tests: $(T)
-	@tests/aggregate-coverage
+	@tests/results
 
 $(T):
 	@$@ $(PASS_TEST_OPTS)
 
 lint:
-	shellcheck --shell=bash $(PROG).bash tests/commons.sh tests/aggregate-coverage
+	shellcheck --shell=bash $(PROG).bash tests/commons tests/results
 
 clean:
 	@rm -vrf tests/test-results/ tests/gnupg/random_seed
