@@ -59,8 +59,8 @@ Usage:
             -l, --length <s>  Provide a password length.
             -p, --provide     Let the user specify a password by hand.
             -m, --multiline   Update a multiline password.
-            -i, --include <r> Only update the password that match a regex.
-            -e, --exclude <r> Do not update password that macth a regex.
+            -i, --include <r> Only update the passwords that match a regex.
+            -e, --exclude <r> Do not update the passwords that macth a regex.
             -E, --edit        Edit the password using the default editor.
             -f, --force       Force update.
             -V, --version     Show version information.
@@ -123,6 +123,11 @@ Retype the new password for Business/site.com:
 **Do not update PIN code**
 ```
 pass update --exclude '^[0-9]+$' /
+```
+
+**Update only PIN code**
+```
+pass update --include '^[0-9]+$' /
 ```
 
 ## Installation

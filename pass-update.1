@@ -1,4 +1,4 @@
-.TH pass-update 1 "September 2017" "pass-update"
+.TH pass-update 1 "December 2018" "pass-update"
 
 .SH NAME
 pass-update \- A \fBpass\fP(1) extension that provides an easy flow for updating
@@ -22,8 +22,8 @@ generating a new one. This behaviour can be changed using the provided options.
 
 .SH COMMAND
 .TP
-\fBpass update\fP [ \fI--clip\fP, \fI-c\fP ] [ \fI--no-symbols\fP, \fI-n\fP ] [ \fI--provide\fP, \fI-p\fP ]
-     [\fI--length=<size>\fP, \fI-l <size>\fP] [ \fI--edit\fP, \fI-e\fP ]
+\fBpass update\fP [ \fI--clip\fP, \fI-c\fP ] [ \fI--no-symbols\fP, \fI-n\fP ] [ \fI--provide\fP, \fI-p\fP ] [\fI--length=<size>\fP, \fI-l <size>\fP]
+     [ \fI--include=<regex>\fP, \fI-i <regex>\fP ] [ \fI--exclude=<regex>\fP, \fI-e=<regex>\fP ] [ \fI--edit\fP, \fI-E\fP ]
      [ \fI--multiline\fP, \fI-m\fP ] \fIpass-names...\fP
 
 Update the password provided: print the password and wait for the user to
@@ -51,7 +51,13 @@ If \fI--multiline\fP or \fI-m\fP is specified, update a multiline password.
 Beware this option will overwrite the full password file instead of updating
 the password field.
 
-If \fI--edit\fP or \fI-e\fP is specified, edit the password using the default
+If \fI--include\fP or \fI-i\fP is specified, Only update the passwords that
+match a given regex.
+
+If \fI--exclude\fP or \fI-e\fP is specified, Do not update the passwords that
+match a given regex.
+
+If \fI--edit\fP or \fI-E\fP is specified, edit the password using the default
 editor. This editor can be specified with \fIEDITOR\fP.
 
 If \fI--force\fP or \fI-f\fP is specified, pass update does not wait for the
@@ -80,7 +86,15 @@ Let the user specify a password by hand.
 Update a multiline password.
 
 .TP
-\fB\-e\fB, \-\-edit\fR
+\fB\-e <regex>\fB, \-\-exclude=<regex>\fR
+Do not update the passwords that macth a regex.
+
+.TP
+\fB\-i <regex>\fB, \-\-include=<regex>\fR
+Only update the passwords that match a regex.
+
+.TP
+\fB\-E\fB, \-\-edit\fR
 Edit the password using the default editor.
 
 .TP
@@ -167,12 +181,21 @@ Enter the new password for Business/site.com:
 .br
 Retype the new password for Business/site.com:
 
+.TP
+Do not update PIN code
+.B zx2c4@laptop ~ $ pass update --exclude '^[0-9]+$' /
+
+.TP
+Update only PIN code
+.B zx2c4@laptop ~ $ pass update --include '^[0-9]+$' /
+
 
 .SH SEE ALSO
 .BR pass(1),
 .BR pass-tomb(1),
 .BR pass-import(1),
-.BR pass-otp(1)
+.BR pass-otp(1),
+.BR pass-audit(1)
 
 
 .SH AUTHORS

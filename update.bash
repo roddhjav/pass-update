@@ -52,8 +52,8 @@ cmd_update_usage() {
             -l, --length <s>  Provide a password length.
             -p, --provide     Let the user specify a password by hand.
             -m, --multiline   Update a multiline password.
-            -i, --include <r> Only update the password that match a regex.
-            -e, --exclude <r> Do not update password that macth a regex.
+            -i, --include <r> Only update the passwords that match a regex.
+            -e, --exclude <r> Do not update the passwords that macth a regex.
             -E, --edit        Edit the password using the default editor.
             -f, --force       Force update.
             -V, --version     Show version information.
