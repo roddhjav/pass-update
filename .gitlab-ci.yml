@@ -3,6 +3,7 @@
 stages:
   - lint
   - test
+  - deploy
 
 bash:
   stage: lint
@@ -21,10 +22,17 @@ bash:
    - web
 
 archlinux:
+  stage: test
   image: archlinux/base
   before_script:
-    - pacman -Syu --noconfirm --noprogressbar make grep pass git
-  <<: *script
+    - pacman -Syu --noconfirm --noprogressbar make grep pass git jq kcov
+  script:
+    - make tests COVERAGE=true
+    - mv /tmp/pass-update/kcov kcov/
+  artifacts:
+    expire_in: 2 days
+    paths:
+      - kcov/
 
 ubuntu:
   image: ubuntu
@@ -69,3 +77,16 @@ opensuse:
     - make --directory=password-store-1.7.3 install
   <<: *script
   <<: *only
+
+pages:
+  stage: deploy
+  dependencies:
+    - archlinux
+  script:
+    - mv kcov/ public/
+  artifacts:
+    expire_in: 2 days
+    paths:
+      - public
+  only:
+    - master

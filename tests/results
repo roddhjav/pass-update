@@ -26,6 +26,8 @@ if $COVERAGE; then
 	mapfile -t COVERED < <(find "$TMP"/*.sh -maxdepth 0 -type d)
 	[[ -z "$TRAVIS_JOB_ID" ]] || OPTS=("--coveralls-id=$TRAVIS_JOB_ID")
 	"$KCOV" "${OPTS[@]}" --merge "$TMP/kcov" "${COVERED[@]}"
+	covered=$(jq '.percent_covered' "$TMP/kcov/kcov-merged/coverage.json" | sed -e 's/"//g')
+	printf "%s: %s\n" coverage "$covered"
 fi
 
 failed_tests=
