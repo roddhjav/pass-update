@@ -4,9 +4,9 @@
         <img src="https://img.shields.io/travis/roddhjav/pass-update/master.svg?style=flat-square"
              alt="Build Status" /></a>
     <a href="https://gitlab.com/roddhjav/pass-update/pipelines">
-        <img src="https://gitlab.com/roddhjav/pass-update/badges/master/pipeline.svg"
+        <img src="https://gitlab.com/roddhjav/pass-update/badges/master/pipeline.svg?style=flat-square"
              alt="Pipeline Status" /></a>
-    <a href="https://coveralls.io/github/roddhjav/pass-update">
+    <a href="https://roddhjav.gitlab.io/pass-audit/">
         <img src="https://img.shields.io/coveralls/roddhjav/pass-update/master.svg?style=flat-square"
              alt="Code Coverage" /></a>
     <a href="https://www.codacy.com/app/roddhjav/pass-update">
