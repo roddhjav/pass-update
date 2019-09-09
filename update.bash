@@ -44,7 +44,7 @@ cmd_update_usage() {
             a new one. This behaviour can be changed using the provided options.
 
             Only the first line of a password file is updated unless the
-            --multiline opiton is specified.
+            --multiline option is specified.
 
     	Options:
             -c, --clip        Write the password to the clipboard.
