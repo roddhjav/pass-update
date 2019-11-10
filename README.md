@@ -1,25 +1,12 @@
-<h1 align="center">pass update</h1>
-<p align="center">
-    <a href="https://travis-ci.org/roddhjav/pass-update">
-        <img src="https://img.shields.io/travis/roddhjav/pass-update/master.svg?style=flat-square"
-             alt="Build Status" /></a>
-    <a href="https://gitlab.com/roddhjav/pass-update/pipelines">
-        <img src="https://gitlab.com/roddhjav/pass-update/badges/master/pipeline.svg?style=flat-square"
-             alt="Pipeline Status" /></a>
-    <a href="https://roddhjav.gitlab.io/pass-audit/">
-        <img src="https://img.shields.io/coveralls/roddhjav/pass-update/master.svg?style=flat-square"
-             alt="Code Coverage" /></a>
-    <a href="https://www.codacy.com/app/roddhjav/pass-update">
-        <img src="https://img.shields.io/codacy/grade/1eccb02d0b9a4c3d834c01b8f67b6cb4/master.svg?style=flat-square"
-             alt="Code Quality" /></a>
-    <a href="https://github.com/roddhjav/pass-update/releases/latest">
-        <img src="https://img.shields.io/github/release/roddhjav/pass-update.svg?maxAge=600&style=flat-square"
-             alt="Last Release" /></a>
-</p>
-<p align="center">
-    A <a href="https://www.passwordstore.org/">pass</a> extension that provides
-    an easy flow for updating passwords.
-</p>
+[<img src="https://gitlab.com/uploads/-/system/project/avatar/2394420/logo.png" align="right" height="110"/>][github-link]
+
+# pass update
+
+[![][travis]][travis-link] [![][gitlab]][gitlab-link] [![][coverage]][coverage-link] [![][quality]][quality-link] [![
+][release]][release-link]
+
+**A [pass] extension that provides an easy flow for updating passwords.**
+
 
 ## Description
 `pass update` extends the pass utility with an update command providing
@@ -199,6 +186,19 @@ Feedback, contributors, pull requests are all very welcome.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+[github-link]: https://github.com/roddhjav/pass-update
+[travis]: https://img.shields.io/travis/roddhjav/pass-update/master.svg?style=flat-square
+[travis-link]: https://travis-ci.org/roddhjav/pass-update
+[gitlab]: https://gitlab.com/roddhjav/pass-update/badges/master/pipeline.svg?style=flat-square
+[gitlab-link]: https://gitlab.com/roddhjav/pass-update/pipelines
+[coverage]: https://img.shields.io/coveralls/roddhjav/pass-update/master.svg?style=flat-square
+[coverage-link]: https://roddhjav.gitlab.io/pass-audit/
+[quality]: https://img.shields.io/codacy/grade/1eccb02d0b9a4c3d834c01b8f67b6cb4/master.svg?style=flat-square
+[quality-link]: https://www.codacy.com/app/roddhjav/pass-update
+[release]: https://img.shields.io/github/release/roddhjav/pass-update.svg?maxAge=600&style=flat-square
+[release-link]: https://github.com/roddhjav/pass-update/releases/latest
+
+[pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
 [aur]: https://aur.archlinux.org/packages/pass-update
 [releases]: https://github.com/roddhjav/pass-update/releases
