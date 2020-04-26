@@ -2,8 +2,9 @@ PROG ?= update
 PREFIX ?= /usr
 DESTDIR ?=
 LIBDIR ?= $(PREFIX)/lib
-SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
 MANDIR ?= $(PREFIX)/share/man
+
+SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
 
 BASHCOMPDIR ?= $(PREFIX)/share/bash-completion/completions
 ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
@@ -13,17 +14,14 @@ all:
 	@echo ""
 	@echo "To install it try \"make install\" instead."
 	@echo
-	@echo "To run pass $(PROG) one needs to have some tools installed on the system:"
-	@echo "     password store"
 
 install:
-	@install -v -d "$(DESTDIR)$(MANDIR)/man1"
-	@install -v -d "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/"
-	@install -v -d "$(DESTDIR)$(BASHCOMPDIR)" "$(DESTDIR)$(ZSHCOMPDIR)"
-	@install -v -m 0755 $(PROG).bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
-	@install -v -m 0644 pass-$(PROG).1 "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
-	@install -v -m 0644 "completion/pass-$(PROG).bash" "$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)"
-	@install -v -m 0644 "completion/pass-$(PROG).zsh" "$(DESTDIR)$(ZSHCOMPDIR)/_pass-$(PROG)"
+	@install -vd "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/" "$(DESTDIR)$(MANDIR)/man1" \
+				 "$(DESTDIR)$(BASHCOMPDIR)" "$(DESTDIR)$(ZSHCOMPDIR)"
+	@install -vm 0755 $(PROG).bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
+	@install -vm 0644 pass-$(PROG).1 "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
+	@install -vm 0644 "completion/pass-$(PROG).bash" "$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)"
+	@install -vm 0644 "completion/pass-$(PROG).zsh" "$(DESTDIR)$(ZSHCOMPDIR)/_pass-$(PROG)"
 	@echo
 	@echo "pass-$(PROG) is installed succesfully"
 	@echo
@@ -52,7 +50,7 @@ lint:
 	shellcheck --shell=bash $(PROG).bash tests/commons tests/results
 
 clean:
-	@rm -vrf tests/test-results/ tests/gnupg/random_seed
-
+	@rm -vrf debian/.debhelper debian/debhelper* debian/pass-extension-import* \
+		tests/test-results/ tests/gnupg/random_seed
 
 .PHONY: install uninstall tests $(T) lint clean
