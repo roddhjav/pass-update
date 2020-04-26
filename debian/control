@@ -1,0 +1,19 @@
+Source: pass-update
+Section: admin
+Priority: optional
+Maintainer: Alexandre Pujol <alexandre@pujol.io>
+Build-Depends:
+  debhelper-compat (= 12),
+Standards-Version: 4.5.0
+Homepage: https://github.com/roddhjav/pass-update
+
+Package: pass-extension-update
+Architecture: all
+Depends:
+  ${misc:Depends},
+  pass (>= 1.7.0),
+Description: A pass extension that provides an easy flow for updating passwords
+  Extends the pass utility with an update command providing an easy flow for
+  updating passwords. It supports path, directory and wildcard update.
+  Moreover, you can select how to update your passwords by automatically
+  generating new passwords or manually setting your own.

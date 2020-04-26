@@ -129,6 +129,18 @@ pass update --include '^[0-9]+$' /
 yay -S pass-update  # or your preferred AUR install method
 ```
 
+**Debian/Ubuntu**
+
+`pass-update` is available under my own debian repository with the package name
+`pass-extension-update`. Both the repository and the package are signed with
+my GPG key: [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
+```sh
+wget -qO - https://pkg.pujol.io/debian/gpgkey | sudo apt-key add -
+sudo echo 'deb https://pkg.pujol.io/debian/repo all main' > /etc/apt/sources.list.d/pkg.pujol.io.list
+sudo apt-get update
+sudo apt-get install pass-extension-update
+```
+
 **NixOS**
 ```sh
 nix-env -iA nixos.passExtensions.pass-update
@@ -188,11 +200,11 @@ Feedback, contributors, pull requests are all very welcome.
 
 [github-link]: https://github.com/roddhjav/pass-update
 [travis]: https://img.shields.io/travis/roddhjav/pass-update/master.svg?style=flat-square
-[travis-link]: https://travis-ci.org/roddhjav/pass-update
+[travis-link]: https://travis-ci.com/roddhjav/pass-update
 [gitlab]: https://gitlab.com/roddhjav/pass-update/badges/master/pipeline.svg?style=flat-square
 [gitlab-link]: https://gitlab.com/roddhjav/pass-update/pipelines
 [coverage]: https://img.shields.io/coveralls/roddhjav/pass-update/master.svg?style=flat-square
-[coverage-link]: https://roddhjav.gitlab.io/pass-audit/
+[coverage-link]: https://coveralls.io/github/roddhjav/pass-update
 [quality]: https://img.shields.io/codacy/grade/1eccb02d0b9a4c3d834c01b8f67b6cb4/master.svg?style=flat-square
 [quality-link]: https://www.codacy.com/app/roddhjav/pass-update
 [release]: https://img.shields.io/github/release/roddhjav/pass-update.svg?maxAge=600&style=flat-square
