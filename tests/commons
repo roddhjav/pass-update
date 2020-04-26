@@ -41,7 +41,7 @@ if $COVERAGE; then
 	[[ -e "$KCOV" ]] || _die "Could not find kcov command"
 	_pass() {
 		"$KCOV" --exclude-line='esac done,clip' \
-		        --include-path="$PROJECT_HOME/update.bash" \
+		        --include-path="$PROJECT_HOME/update.bash" --exclude-path=/ \
 		        "$TMP/$(basename "$0")" "$PASS" "${@}"
 	}
 else
