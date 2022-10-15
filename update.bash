@@ -66,7 +66,8 @@ cmd_update_usage() {
 # Print the content of a passfile
 # $1: Path in the password store
 _show() {
-	local path="${1%/}" passfile="$PREFIX/$path.gpg"
+	local path="${1%/}"
+	local passfile="$PREFIX/$path.gpg"
 	[[ -f $passfile ]] && { $GPG -d "${GPG_OPTS[@]}" "$passfile" || exit $?; }
 }
 
@@ -74,7 +75,8 @@ _show() {
 # $1: Path in the password store
 # $2: Data to insert
 _insert() {
-	local path="${1%/}" data="$2" passfile="$PREFIX/$path.gpg"
+	local path="${1%/}" data="$2"
+	local passfile="$PREFIX/$path.gpg"
 
 	set_git "$passfile"
 	mkdir -p -v "$PREFIX/$(dirname "$path")"
@@ -107,7 +109,7 @@ cmd_update() {
 		if [[ $path =~ [*] ]]; then
 			for file in "$PREFIX/"$path.gpg; do
 				if [[ -f "$file" ]]; then
-					tmpfile="${file#$PREFIX/}"
+					tmpfile="${file#"$PREFIX"/}"
 					paths+=("${tmpfile%.gpg}")
 				fi
 			done
