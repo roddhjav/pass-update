@@ -116,7 +116,7 @@ pass update --exclude '^[0-9]+$' /
 pass update --include '^[0-9]+$' /
 ```
 
-## Installation
+## Installation [<img src="https://repology.org/badge/vertical-allrepos/pass-update.svg" align="right">][repology-link]
 
 **Requirements**
 * `pass 1.7.0` or greater.
@@ -206,6 +206,7 @@ Feedback, contributors, pull requests are all very welcome.
 [quality-link]: https://www.codacy.com/app/roddhjav/pass-update
 [release]: https://img.shields.io/github/release/roddhjav/pass-update.svg?maxAge=600&style=flat-square
 [release-link]: https://github.com/roddhjav/pass-update/releases/latest
+[repology-link]: https://repology.org/project/pass-update/versions
 
 [pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
