@@ -2,28 +2,39 @@
 
 stages:
   - lint
-  - test
+  - tests
+  - dist
   - deploy
 
-bash:
+
+# Dependencies definitions
+# ------------------------
+
+.distribution:
+  stage: dist
+  script:
+    - make tests
+  only:
+   - tags
+   - web
+
+
+# Jobs definitions
+# ----------------
+
+# Code Linters
+
+shellcheck:
   stage: lint
   image: koalaman/shellcheck-alpine
   script:
     - shellcheck --shell=bash update.bash tests/commons tests/results
 
-.script: &script
-  stage: test
-  script:
-    - make tests
+# Code tests
 
-.only: &only
-  only:
-   - tags
-   - web
-
-archlinux:
-  stage: test
-  image: archlinux/base
+test:
+  stage: tests
+  image: archlinux
   before_script:
     - pacman -Syu --noconfirm --noprogressbar make grep pass git jq kcov
   script:
@@ -34,54 +45,38 @@ archlinux:
     paths:
       - kcov/
 
+# Distribution tests
+
+archlinux:
+  image: archlinux
+  extends: .distribution
+  before_script:
+    - pacman -Syu --noconfirm --noprogressbar make grep pass git jq kcov
+
 ubuntu:
   image: ubuntu
+  extends: .distribution
   before_script:
     - apt-get update -q && apt-get install -y make pass grep git
-  <<: *script
-  <<: *only
 
 debian:
   image: debian
+  extends: .distribution
   before_script:
     - apt-get update -q && apt-get install -y make pass grep wget git xz-utils
-    - wget https://git.zx2c4.com/password-store/snapshot/password-store-1.7.3.tar.xz
-    - tar -xf password-store-1.7.3.tar.xz
-    - make --directory=password-store-1.7.3 install
-  <<: *script
-  <<: *only
 
 fedora:
   image: fedora
+  extends: .distribution
   before_script:
     - dnf -y install make gpg pass grep git findutils --setopt=install_weak_deps=False
-  <<: *script
-  <<: *only
 
-centos:
-  image: centos
-  before_script:
-    - yum -y update && yum -y install make gpg grep wget git
-    - wget https://git.zx2c4.com/password-store/snapshot/password-store-1.7.3.tar.xz
-    - tar -xf password-store-1.7.3.tar.xz
-    - make --directory=password-store-1.7.3 install
-  <<: *script
-  <<: *only
-
-opensuse:
-  image: opensuse
-  before_script:
-    - zypper -n refresh && zypper -n install make grep wget tar git
-    - wget https://git.zx2c4.com/password-store/snapshot/password-store-1.7.3.tar.xz
-    - tar -xf password-store-1.7.3.tar.xz
-    - make --directory=password-store-1.7.3 install
-  <<: *script
-  <<: *only
+# Code coverage deployment
 
 pages:
   stage: deploy
   dependencies:
-    - archlinux
+    - test
   script:
     - mv kcov/ public/
   artifacts:
