@@ -2,8 +2,7 @@
 
 # pass update
 
-[![][travis]][travis-link] [![][gitlab]][gitlab-link] [![][coverage]][coverage-link] [![][quality]][quality-link] [![
-][release]][release-link]
+[![][coverage]][coverage-link] [![][quality]][quality-link] [![][release]][release-link]
 
 **A [pass] extension that provides an easy flow for updating passwords.**
 
@@ -199,8 +198,6 @@ Feedback, contributors, pull requests are all very welcome.
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 [github-link]: https://github.com/roddhjav/pass-update
-[travis]: https://img.shields.io/travis/roddhjav/pass-update/master.svg?style=flat-square
-[travis-link]: https://travis-ci.com/roddhjav/pass-update
 [gitlab]: https://gitlab.com/roddhjav/pass-update/badges/master/pipeline.svg?style=flat-square
 [gitlab-link]: https://gitlab.com/roddhjav/pass-update/pipelines
 [coverage]: https://img.shields.io/coveralls/roddhjav/pass-update/master.svg?style=flat-square
