@@ -2,7 +2,7 @@
 
 # pass update
 
-[![][coverage]][coverage-link] [![][quality]][quality-link] [![][release]][release-link]
+[![][gitlab]][gitlab-link] [![][coverage]][coverage-link] [![][quality]][quality-link] [![][release]][release-link]
 
 **A [pass] extension that provides an easy flow for updating passwords.**
 
