@@ -130,7 +130,7 @@ yay -S pass-update  # or your preferred AUR install method
 
 **Debian/Ubuntu**
 
-`pass-update` is available under my own debian repository with the package name
+`pass-update` is available [my own debian repository][repo] with the package name
 `pass-extension-update`. Both the repository and the package are signed with
 my GPG key: [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
 ```sh
@@ -210,6 +210,7 @@ Feedback, contributors, pull requests are all very welcome.
 
 [pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
+[repo]: https://pkg.pujol.io
 [aur]: https://aur.archlinux.org/packages/pass-update
 [releases]: https://github.com/roddhjav/pass-update/releases
 [keybase]: https://keybase.io/roddhjav
