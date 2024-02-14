@@ -6,7 +6,7 @@ MANDIR ?= $(PREFIX)/share/man
 
 SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
 
-BASHCOMPDIR ?= $(PREFIX)/share/bash-completion/completions
+BASHCOMPDIR ?= /etc/bash_completion.d
 ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
 
 all:
