@@ -34,7 +34,7 @@ PROJECT_HOME="$(dirname "$TESTS_HOME")"
 _die() { echo "${@}" && exit 1; }
 PASS="$(command -v pass)"
 GPG="$(command -v gpg)"
-GIT=false
+GIT=true
 [[ -e "$PASS" ]] || _die "Could not find pass command"
 [[ -e "$GPG" ]] || _die "Could not find gpg command"
 if $COVERAGE; then
