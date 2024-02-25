@@ -1,2 +1,7 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
 # generated man pages
 share/man/man1/*.1
