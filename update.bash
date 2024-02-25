@@ -36,6 +36,7 @@ cmd_update_usage() {
 		         -c, --clip        Write the password to the clipboard.
 		         -n, --no-symbols  Do not use any non-alphanumeric characters.
 		         -l, --length <s>  Provide a password length.
+		         -a, --auto-length Match the previous password's length.
 		         -p, --provide     Let the user specify a password by hand.
 		         -m, --multiline   Update a multiline password.
 		         -i, --include <r> Only update the passwords that match a regex.
@@ -163,6 +164,10 @@ cmd_update() {
 					die "Error: Password encryption aborted."
 				fi
 			else
+				if [[ $AUTOLENGTH -eq 1 ]]; then
+					LENGTH="${#oldpassword}"
+					echo "Using the old password length: $LENGTH"
+				fi
 				cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP '--in-place' || exit 1
 			fi
 		else
@@ -180,11 +185,12 @@ PROVIDED=0
 EDIT=0
 INCLUDE=""
 EXCLUDE=""
+AUTOLENGTH=0
 LENGTH="$GENERATED_LENGTH"
 
 # Getopt options
-small_arg="hVcfnl:pmEi:e:"
-long_arg="help,version,clip,force,no-symbols,length:,provide,multiline,edit,include:,exclude:"
+small_arg="hVcfnl:apmEi:e:"
+long_arg="help,version,clip,force,no-symbols,length:,auto-length,provide,multiline,edit,include:,exclude:"
 opts="$($GETOPT -o $small_arg -l $long_arg -n "$PROGRAM $COMMAND" -- "$@")"
 err=$?
 eval set -- "$opts"
@@ -208,6 +214,10 @@ while true; do case $1 in
 	-l | --length)
 		LENGTH="$2"
 		shift 2
+		;;
+	-a | --auto-length)
+		AUTOLENGTH=1
+		shift 1
 		;;
 	-m | --multiline)
 		MULTLINE=1

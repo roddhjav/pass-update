@@ -43,6 +43,7 @@ Usage:
          -c, --clip        Write the password to the clipboard.
          -n, --no-symbols  Do not use any non-alphanumeric characters.
          -l, --length <s>  Provide a password length.
+         -a, --auto-length Match the previous password's length.
          -p, --provide     Let the user specify a password by hand.
          -m, --multiline   Update a multiline password.
          -i, --include <r> Only update the passwords that match a regex.

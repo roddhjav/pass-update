@@ -44,6 +44,10 @@ Update the password provided: print the password and wait for the user to genera
 
 : Provide a password length
 
+**`-a`, `--auto-length`**
+
+: The password length will match the previous password's length
+
 **`-p`, `--provide`**
 
 : Let the user specify a password by hand.

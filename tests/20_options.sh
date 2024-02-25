@@ -42,6 +42,12 @@ test_expect_success 'Testing updating a password by editing it' "
     test_password_is Business/site.eu 'correct horse battery staple'
     "
 
+test_expect_success 'Testing updating a password with the same length' '
+    _pass update --force --auto-length Business/site.eu  &&
+    newpasswd="$(pass show Business/site.eu | head -n 1)" &&
+    [[ "${#newpasswd}" == 28 ]]
+    '
+
 if test_have_prereq XCLIP; then
     test_expect_success 'Testing updating password with clipboard output' '
         _pass update --force --clip Email/donenfeld.com &&
