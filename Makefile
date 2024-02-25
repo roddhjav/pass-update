@@ -1,45 +1,33 @@
-PROG ?= update
+#!/usr/bin/make -f
+# pass update - Passwords importer swiss army knife
+# Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+EXT ?= update
 PREFIX ?= /usr
 DESTDIR ?=
-LIBDIR ?= $(PREFIX)/lib
-MANDIR ?= $(PREFIX)/share/man
-
-SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
-
-BASHCOMPDIR ?= $(PREFIX)/share/bash-completion/completions
-ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
+LIBDIR ?= ${PREFIX}/lib
+SYSTEM_EXTENSION_DIR ?= ${LIBDIR}/password-store/extensions
 
 all:
-	@echo "pass-$(PROG) is a shell script and does not need compilation, it can be simply executed."
+	@echo "pass-${EXT} is a shell script and does not need compilation, it can be simply executed."
 	@echo ""
 	@echo "To install it try \"make install\" instead."
 	@echo
 
+SHARE = $(shell find share/ -not -name "*.md" -type f -printf "%P\n")
 install:
-	@install -vd "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/" "$(DESTDIR)$(MANDIR)/man1" \
-				 "$(DESTDIR)$(BASHCOMPDIR)" "$(DESTDIR)$(ZSHCOMPDIR)"
-	@install -vm 0755 $(PROG).bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
-	@install -vm 0644 pass-$(PROG).1 "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
-	@install -vm 0644 "completion/pass-$(PROG).bash" "$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)"
-	@install -vm 0644 "completion/pass-$(PROG).zsh" "$(DESTDIR)$(ZSHCOMPDIR)/_pass-$(PROG)"
-	@echo
-	@echo "pass-$(PROG) is installed succesfully"
-	@echo
-
-uninstall:
-	@rm -vrf \
-		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash" \
-		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
-		"$(DESTDIR)$(ZSHCOMPDIR)/_pass-$(PROG)" \
-		"$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)"
-
+	@install -Dm0755 ${EXT}.bash "${DESTDIR}${SYSTEM_EXTENSION_DIR}/${EXT}.bash"
+	@for file in ${SHARE}; do \
+		install -Dm0644 "share/$${file}" "${DESTDIR}/${PREFIX}/share/$${file}"; \
+    done;
+	@echo "pass-${EXT} is installed succesfully"
 
 COVERAGE ?= false
-TMP ?= /tmp/pass-update
+TMP ?= /tmp/tests/pass-update
 PASS_TEST_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
 T = $(sort $(wildcard tests/*.sh))
 export COVERAGE TMP
-
 tests: $(T)
 	@tests/results
 
@@ -47,10 +35,12 @@ $(T):
 	@$@ $(PASS_TEST_OPTS)
 
 lint:
-	shellcheck --shell=bash $(PROG).bash tests/commons tests/results
+	shellcheck --shell=bash ${EXT}.bash tests/commons tests/results
+
 
 clean:
-	@rm -vrf debian/.debhelper debian/debhelper* debian/pass-extension-import* \
-		tests/test-results/ tests/gnupg/random_seed
+	@rm -rf debian/.debhelper debian/debhelper* debian/pass-extension-${EXT}* \
+		tests/test-results/ tests/gnupg/random_seed debian/files *.deb \
+		*.buildinfo *.changes share/__pycache__
 
-.PHONY: install uninstall tests $(T) lint clean
+.PHONY: install tests $(T) lint docs commitdocs archive debian release clean
