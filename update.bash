@@ -3,6 +3,8 @@
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+set -e -o pipefail
+
 readonly VERSION="2.1"
 
 warning() { printf 'Warning %s\n' "$*" >&2; }
