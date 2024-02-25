@@ -49,15 +49,20 @@ cmd_update_usage() {
 
 # Print the content of a passfile
 # $1: Path in the password store
+# Return 0 if the password is shown, 1 otherwise
+# Print the file content on stdout
 _show() {
 	local path="${1%/}"
 	local passfile="$PREFIX/$path.gpg"
-	[[ -f $passfile ]] && { $GPG -d "${GPG_OPTS[@]}" "$passfile" || exit $?; }
+	if [[ -f "$passfile" ]]; then
+		$GPG -d "${GPG_OPTS[@]}" "$passfile" || return 1
+	fi
 }
 
 # Insert data to the password store
 # $1: Path in the password store
 # $2: Data to insert
+# Return 0 if the password is inserted, 1 otherwise
 _insert() {
 	local path="${1%/}" data="$2"
 	local passfile="$PREFIX/$path.gpg"
@@ -66,12 +71,10 @@ _insert() {
 	mkdir -p -v "$PREFIX/$(dirname "$path")"
 	set_gpg_recipients "$(dirname "$path")"
 	if [[ $MULTLINE -eq 0 ]]; then
-		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" <<<"$data" || \
-			die "Error: Password encryption aborted."
+		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" <<<"$data" || return 1
 	else
 		echo -e "Enter the updated contents of $path and press Ctrl+D when finished:\n"
-		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" || \
-			die "Error: Password encryption aborted."
+		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" || return 1
 	fi
 	git_add_file "$passfile" "Update password for $path to store."
 }
@@ -112,7 +115,10 @@ cmd_update() {
 	local content oldpassword
 	for path in "${paths[@]}"; do
 		if [[ $EDIT -eq 0 ]]; then
-			content="$(_show "$path")"
+			if ! content="$(_show "$path")"; then
+				die "Error: Password decryption aborted."
+			fi
+
 			oldpassword="$(echo "$content" | head -n 1)"
 			[[ -n "$INCLUDE" && ! "$oldpassword" =~ $INCLUDE ]] && continue
 			[[ -n "$EXCLUDE" && "$oldpassword" =~ $EXCLUDE ]] && continue
@@ -134,7 +140,7 @@ cmd_update() {
 
 			# Update the password
 			if [[ $PROVIDED -eq 1 ]]; then
-				local password password_again
+				local newcontent password password_again
 				while true; do
 					read -r -p "Enter the new password for $path: " -s password || exit 1
 					echo
@@ -146,9 +152,14 @@ cmd_update() {
 						die "Error: the entered passwords do not match."
 					fi
 				done
-				_insert "$path" "$(echo "$content" | sed $'1c \\\n'"$(sed 's/[\/&]/\\&/g' <<<"$password")"$'\n')"
+				newcontent="$(echo "$content" | sed $'1c \\\n'"$(sed 's/[\/&]/\\&/g' <<<"$password")"$'\n')"
+				if ! _insert "$path" "$newcontent"; then
+					die "Error: Password encryption aborted."
+				fi
 			elif [[ $MULTLINE -eq 1 ]]; then
-				_insert "$path"
+				if ! _insert "$path"; then
+					die "Error: Password encryption aborted."
+				fi
 			else
 				cmd_generate "$path" "$LENGTH" $SYMBOLS $CLIP '--in-place' || exit 1
 			fi
