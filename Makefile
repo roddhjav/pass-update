@@ -37,6 +37,44 @@ $(T):
 lint:
 	shellcheck --shell=bash ${EXT}.bash tests/commons tests/results
 
+docs:
+	@pandoc -t man -s -o share/man/man1/pass-${EXT}.1 share/man/man1/pass-${EXT}.md
+
+commitdocs:
+	@git add share/man/man1/pass-${EXT}.1
+	@git commit -S -m "doc: update manual page"
+
+OLDVERSION ?=
+VERSION ?=
+GPGKEY ?= 06A26D531D56C42D66805049C5469996F0DF68EC
+archive:
+	@python3 share --release ${OLDVERSION} ${VERSION}
+	@git tag v${VERSION} -m "pass-${EXT} v${VERSION}" --local-user=${GPGKEY}
+	@git archive \
+		--format=tar.gz \
+		--prefix=pass-${EXT}-${VERSION}/share/man/man1/ \
+		--add-file=share/man/man1/pass-${EXT}.1 \
+		--prefix=pass-${EXT}-${VERSION}/ \
+		--output=pass-${EXT}-${VERSION}.tar.gz \
+		v${VERSION} ':!debian' ':!share/man/man1/*.md'
+	@gpg --armor --default-key ${GPGKEY} --detach-sig pass-${EXT}-${VERSION}.tar.gz
+	@gpg --verify pass-${EXT}-${VERSION}.tar.gz.asc
+
+PKGNAME := pass-extension-${EXT}
+BUILDIR := /home/build/${PKGNAME}
+BASEIMAGE := registry.gitlab.com/roddhjav/builders/debian
+CTNAME := builder-debian-pass-${EXT}
+debian:
+	@docker stop ${CTNAME} &> /dev/null || true
+	@docker pull ${BASEIMAGE}
+	@docker run --rm -tid --name ${CTNAME} --volume ${PWD}:${BUILDIR} \
+		--volume ${HOME}/.gnupg:/home/build/.gnupg ${BASEIMAGE} &> /dev/null || true
+	@docker exec --workdir=${BUILDIR} ${CTNAME} \
+		dpkg-buildpackage -b -d -us -ui --sign-key=${GPGKEY}
+	@docker exec ${CTNAME} bash -c 'mv ~/${PKGNAME}*.* ~/${PKGNAME}'
+	@docker exec ${CTNAME} bash -c 'mv ~/pass-${EXT}*.* ~/${PKGNAME}'
+
+release: tests lint docs commitdocs archive
 
 clean:
 	@rm -rf debian/.debhelper debian/debhelper* debian/pass-extension-${EXT}* \
