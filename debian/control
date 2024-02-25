@@ -1,11 +1,14 @@
 Source: pass-update
-Section: admin
+Section: misc
 Priority: optional
 Maintainer: Alexandre Pujol <alexandre@pujol.io>
 Build-Depends:
   debhelper-compat (= 12),
-Standards-Version: 4.5.0
 Homepage: https://github.com/roddhjav/pass-update
+Vcs-Browser: https://github.com/roddhjav/pass-update
+Vcs-Git: https://github.com/roddhjav/pass-update.git
+Standards-Version: 4.6.0.1
+Rules-Requires-Root: no
 
 Package: pass-extension-update
 Architecture: all
