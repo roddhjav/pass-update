@@ -8,6 +8,7 @@
 
 
 ## Description
+
 `pass update` extends the pass utility with an update command providing
 an easy flow for updating passwords. It supports path, directory and wildcard
 update. Moreover, you can select how to update your passwords by automatically
@@ -23,34 +24,33 @@ generating a new one. This behaviour can be changed using the provided options.
 ## Usage
 
 ```
-pass update 2.1 - A pass extension that provides an
-                  easy flow for updating passwords.
+pass update 2.1 - A pass extension that provides an easy flow for updating passwords.
 
 Usage:
-        pass update [-h] [-n] [-l <s>] [-c | -p] [-p | -m]
-                    [-e <r>] [-i <r>] [-E] [-f] pass-names
-            Provide an interactive solution to update a set of passwords.
-            pass-names can refer either to password store path(s) or to
-            directory.
+    pass update [-h] [-n] [-l <s>] [-c | -p] [-p | -m]
+                [-e <r>] [-i <r>] [-E] [-f] pass-names...
+         Provide an interactive solution to update a set of passwords.
+         pass-names can refer either to password store path(s) or to
+         directory.
 
-            It prints the old password and waits for the user before generating
-            a new one. This behaviour can be changed using the provided options.
+         It prints the old password and waits for the user before generating
+         a new one. This behaviour can be changed using the provided options.
 
-            Only the first line of a password file is updated unless the
-            --multiline option is specified.
+         Only the first line of a password file is updated unless the
+         --multiline option is specified.
 
-    	Options:
-            -c, --clip        Write the password to the clipboard.
-            -n, --no-symbols  Do not use any non-alphanumeric characters.
-            -l, --length <s>  Provide a password length.
-            -p, --provide     Let the user specify a password by hand.
-            -m, --multiline   Update a multiline password.
-            -i, --include <r> Only update the passwords that match a regex.
-            -e, --exclude <r> Do not update the passwords that macth a regex.
-            -E, --edit        Edit the password using the default editor.
-            -f, --force       Force update.
-            -V, --version     Show version information.
-            -h, --help        Print this help message and exit.
+     Options:
+         -c, --clip        Write the password to the clipboard.
+         -n, --no-symbols  Do not use any non-alphanumeric characters.
+         -l, --length <s>  Provide a password length.
+         -p, --provide     Let the user specify a password by hand.
+         -m, --multiline   Update a multiline password.
+         -i, --include <r> Only update the passwords that match a regex.
+         -e, --exclude <r> Do not update the passwords that macth a regex.
+         -E, --edit        Edit the password using the default editor.
+         -f, --force       Force update.
+         -V, --version     Show version information.
+         -h, --help        Print this help message and exit.
 
 More information may be found in the pass-update(1) man page.
 ```
@@ -177,25 +177,8 @@ gpg --verify pass-update-2.1.tar.gz.sig
 ```
 
 ## Contribution
+
 Feedback, contributors, pull requests are all very welcome.
-
-
-## License
-
-    Copyright (C) 2017  Alexandre PUJOL
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 [github-link]: https://github.com/roddhjav/pass-update
 [gitlab]: https://gitlab.com/roddhjav/pass-update/badges/master/pipeline.svg?style=flat-square
