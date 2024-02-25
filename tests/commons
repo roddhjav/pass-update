@@ -30,10 +30,11 @@
 TESTS_HOME="$(pwd)"
 PROJECT_HOME="$(dirname "$TESTS_HOME")"
 
-
 # Check dependencies
 _die() { echo "${@}" && exit 1; }
-PASS="$(command -v pass)"; GPG="$(command -v gpg)"; GIT=false
+PASS="$(command -v pass)"
+GPG="$(command -v gpg)"
+GIT=false
 [[ -e "$PASS" ]] || _die "Could not find pass command"
 [[ -e "$GPG" ]] || _die "Could not find gpg command"
 if $COVERAGE; then
@@ -41,20 +42,18 @@ if $COVERAGE; then
 	[[ -e "$KCOV" ]] || _die "Could not find kcov command"
 	_pass() {
 		"$KCOV" --exclude-line='esac done,clip' \
-		        --include-path="$PROJECT_HOME/update.bash" --exclude-path=/ \
-		        "$TMP/$(basename "$0")" "$PASS" "${@}"
+			--include-path="$PROJECT_HOME/update.bash" --exclude-path=/ \
+			"$TMP/$(basename "$0")" "$PASS" "${@}"
 	}
 else
 	_pass() { "$PASS" "${@}"; }
 fi
-
 
 # sharness config
 export SHARNESS_TEST_DIRECTORY="$TESTS_HOME"
 export SHARNESS_TEST_SRCDIR="$PROJECT_HOME"
 source ./lib-sharness/functions.sh
 source ./sharness
-
 
 #  Prepare pass config vars
 unset PASSWORD_STORE_DIR
@@ -76,7 +75,6 @@ unset EDITOR
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export PASSWORD_STORE_EXTENSIONS_DIR="$PROJECT_HOME"
 
-
 # GnuPG config
 unset GPG_AGENT_INFO
 export GNUPGHOME="$TESTS_HOME/gnupg/"
@@ -87,13 +85,11 @@ export KEY4="9378267629F989A0E96677B7976DD3D6E4691410"
 export KEY5="4D2AFBDE67C60F5999D143AFA6E073D439E5020C"
 chmod 700 "$GNUPGHOME"
 
-
 # Predefined passwords to be updated
 export PASSWORD="$RANDOM"
 export PASSWORD_NUMBERS1="$RANDOM"
 export PASSWORD_NUMBERS2="$RANDOM"
 export PASSWORD_LETTERS=correcthorsebatterystaple
-
 
 # Test helpers
 
@@ -103,16 +99,16 @@ pw() {
 }
 
 pass_insert() {
-	echo -e "$2\nlogin: $(pw 8 "[:lower:]")\nurl: $(basename "$1")" | \
-			pass insert --multiline --force "$1" &> /dev/null
+	echo -e "$2\nlogin: $(pw 8 "[:lower:]")\nurl: $(basename "$1")" |
+		pass insert --multiline --force "$1" &>/dev/null
 }
 
 test_pass_populate() {
-	pass init "$KEY1" &> /dev/null
+	pass init "$KEY1" &>/dev/null
 	if $GIT; then
-		git config --global user.email "Pass-Automated-Testing-Suite@zx2c4.com" &> /dev/null
-		git config --global user.name "Pass Automated Testing Suite" &> /dev/null
-		pass git init &> /dev/null
+		git config --global user.email "Pass-Automated-Testing-Suite@zx2c4.com" &>/dev/null
+		git config --global user.name "Pass Automated Testing Suite" &>/dev/null
+		pass git init &>/dev/null
 	fi
 	pass_insert Business/site.com "$PASSWORD"
 	pass_insert Business/site.eu "$PASSWORD"
@@ -161,10 +157,9 @@ test_export() {
 }
 
 test_xclip() {
-	echo "$RANDOM" | xclip -i &> /dev/null
+	echo "$RANDOM" | xclip -i &>/dev/null
 	return $?
 }
-
 
 # Check for auxiliary programs
 test_xclip && test_set_prereq XCLIP
