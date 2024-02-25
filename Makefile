@@ -40,10 +40,6 @@ lint:
 docs:
 	@pandoc -t man -s -o share/man/man1/pass-${EXT}.1 share/man/man1/pass-${EXT}.md
 
-commitdocs:
-	@git add share/man/man1/pass-${EXT}.1
-	@git commit -S -m "doc: update manual page"
-
 OLDVERSION ?=
 VERSION ?=
 GPGKEY ?= 06A26D531D56C42D66805049C5469996F0DF68EC
@@ -81,4 +77,4 @@ clean:
 		tests/test-results/ tests/gnupg/random_seed debian/files *.deb \
 		*.buildinfo *.changes share/__pycache__
 
-.PHONY: install tests $(T) lint docs commitdocs archive debian release clean
+.PHONY: install tests $(T) lint docs archive debian release clean
