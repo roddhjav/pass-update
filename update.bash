@@ -76,7 +76,7 @@ _insert() {
 		echo -e "Enter the updated contents of $path and press Ctrl+D when finished:\n"
 		$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" || return 1
 	fi
-	git_add_file "$passfile" "Update password for $path to store."
+	git_add_file "$passfile" "Update password for $path to store." || return 2
 }
 
 cmd_update() {
