@@ -1,22 +1,7 @@
 #!/usr/bin/env bash
 # pass update - Password Store Extension (https://www.passwordstore.org/)
-# Copyright (C) 2017 Alexandre PUJOL <alexandre@pujol.io>.
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-
-# shellcheck disable=SC2086
+# Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 readonly VERSION="2.1"
 
@@ -24,8 +9,7 @@ warning() { echo -e "Warning: ${*}" >&2; }
 
 cmd_update_version() {
 	cat <<-_EOF
-	$PROGRAM $COMMAND $VERSION - A pass extension that provides an
-                  easy flow for updating passwords.
+		$PROGRAM $COMMAND $VERSION - A pass extension that provides an easy flow for updating passwords.
 	_EOF
 }
 
@@ -33,33 +17,33 @@ cmd_update_usage() {
 	cmd_update_version
 	echo
 	cat <<-_EOF
-	Usage:
-        $PROGRAM update [-h] [-n] [-l <s>] [-c | -p] [-p | -m]
-                    [-e <r>] [-i <r>] [-E] [-f] pass-names
-            Provide an interactive solution to update a set of passwords.
-            pass-names can refer either to password store path(s) or to
-            directory.
+		Usage:
+		    $PROGRAM update [-h] [-n] [-l <s>] [-c | -p] [-p | -m]
+		                [-e <r>] [-i <r>] [-E] [-f] pass-names...
+		         Provide an interactive solution to update a set of passwords.
+		         pass-names can refer either to password store path(s) or to
+		         directory.
 
-            It prints the old password and waits for the user before generating
-            a new one. This behaviour can be changed using the provided options.
+		         It prints the old password and waits for the user before generating
+		         a new one. This behaviour can be changed using the provided options.
 
-            Only the first line of a password file is updated unless the
-            --multiline option is specified.
+		         Only the first line of a password file is updated unless the
+		         --multiline option is specified.
 
-    	Options:
-            -c, --clip        Write the password to the clipboard.
-            -n, --no-symbols  Do not use any non-alphanumeric characters.
-            -l, --length <s>  Provide a password length.
-            -p, --provide     Let the user specify a password by hand.
-            -m, --multiline   Update a multiline password.
-            -i, --include <r> Only update the passwords that match a regex.
-            -e, --exclude <r> Do not update the passwords that macth a regex.
-            -E, --edit        Edit the password using the default editor.
-            -f, --force       Force update.
-            -V, --version     Show version information.
-            -h, --help        Print this help message and exit.
+		     Options:
+		         -c, --clip        Write the password to the clipboard.
+		         -n, --no-symbols  Do not use any non-alphanumeric characters.
+		         -l, --length <s>  Provide a password length.
+		         -p, --provide     Let the user specify a password by hand.
+		         -m, --multiline   Update a multiline password.
+		         -i, --include <r> Only update the passwords that match a regex.
+		         -e, --exclude <r> Do not update the passwords that macth a regex.
+		         -E, --edit        Edit the password using the default editor.
+		         -f, --force       Force update.
+		         -V, --version     Show version information.
+		         -h, --help        Print this help message and exit.
 
-	More information may be found in the pass-update(1) man page.
+		More information may be found in the pass-update(1) man page.
 	_EOF
 }
 
@@ -192,19 +176,57 @@ opts="$($GETOPT -o $small_arg -l $long_arg -n "$PROGRAM $COMMAND" -- "$@")"
 err=$?
 eval set -- "$opts"
 while true; do case $1 in
-	-c|--clip) CLIP="--clip"; shift ;;
-	-f|--force) YES=1; shift ;;
-	-n|--no-symbols) SYMBOLS="--no-symbols"; shift ;;
-	-p|--provide) PROVIDED=1; shift ;;
-	-l|--length) LENGTH="$2"; shift 2 ;;
-	-m|--multiline) MULTLINE=1; shift ;;
-	-i|--include) INCLUDE="$2"; shift 2 ;;
-	-e|--exclude) EXCLUDE="$2"; shift 2 ;;
-	-E|--edit) EDIT=1; shift ;;
-	-h|--help) shift; cmd_update_usage; exit 0 ;;
-	-V|--version) shift; cmd_update_version; exit 0 ;;
-	--) shift; break ;;
-esac done
+	-c | --clip)
+		CLIP="--clip"
+		shift
+		;;
+	-f | --force)
+		YES=1
+		shift
+		;;
+	-n | --no-symbols)
+		SYMBOLS="--no-symbols"
+		shift
+		;;
+	-p | --provide)
+		PROVIDED=1
+		shift
+		;;
+	-l | --length)
+		LENGTH="$2"
+		shift 2
+		;;
+	-m | --multiline)
+		MULTLINE=1
+		shift
+		;;
+	-i | --include)
+		INCLUDE="$2"
+		shift 2
+		;;
+	-e | --exclude)
+		EXCLUDE="$2"
+		shift 2
+		;;
+	-E | --edit)
+		EDIT=1
+		shift
+		;;
+	-h | --help)
+		shift
+		cmd_update_usage
+		exit 0
+		;;
+	-V | --version)
+		shift
+		cmd_update_version
+		exit 0
+		;;
+	--)
+		shift
+		break
+		;;
+	esac done
 
 [[ $err -ne 0 ]] && cmd_update_usage && exit 1
 cmd_update "$@"
