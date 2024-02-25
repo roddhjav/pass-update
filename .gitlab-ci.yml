@@ -1,5 +1,4 @@
 ---
-
 stages:
   - lint
   - tests
@@ -14,10 +13,6 @@ stages:
   stage: dist
   script:
     - make tests
-  only:
-   - tags
-   - web
-
 
 # Jobs definitions
 # ----------------
@@ -32,7 +27,7 @@ shellcheck:
 
 # Code tests
 
-test:
+tests:
   stage: tests
   image: archlinux
   before_script:
@@ -76,12 +71,12 @@ fedora:
 pages:
   stage: deploy
   dependencies:
-    - test
+    - tests
   script:
     - mv kcov/ public/
   artifacts:
     expire_in: 2 days
     paths:
       - public
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
