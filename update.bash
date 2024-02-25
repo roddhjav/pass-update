@@ -5,7 +5,7 @@
 
 readonly VERSION="2.1"
 
-warning() { echo -e "Warning: ${*}" >&2; }
+warning() { printf 'Warning %s\n' "$*" >&2; }
 
 cmd_update_version() {
 	cat <<-_EOF
