@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keep-changelog].
 
+## [2.2] - 2024-02-26
+
+### Added
+
+- Add the `-a` option to generate password with the same lenght than the former ones.
+
+### Changed
+
+- The man pages are now generated from markdown with pandoc.
+- Automated release process.
+- Updated the sharness test suite to `1.2.0`
+
 ## [2.1] - 2018-12-11
 ### Added
 * Add completion file for bash and zsh.
@@ -49,6 +61,7 @@ update an easier flow.
 * Initial release.
 
 
+[2.2]: https://github.com/roddhjav/pass-update/releases/tag/v2.2
 [2.1]: https://github.com/roddhjav/pass-update/releases/tag/v2.1
 [2.0]: https://github.com/roddhjav/pass-update/releases/tag/v2.0
 [1.0]: https://github.com/roddhjav/pass-update/releases/tag/v1.0
