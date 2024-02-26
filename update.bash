@@ -5,7 +5,7 @@
 
 set -e -o pipefail
 
-readonly VERSION="2.1"
+readonly VERSION="2.2"
 
 warning() { printf 'Warning %s\n' "$*" >&2; }
 

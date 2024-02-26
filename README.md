@@ -24,7 +24,7 @@ generating a new one. This behaviour can be changed using the provided options.
 ## Usage
 
 ```
-pass update 2.1 - A pass extension that provides an easy flow for updating passwords.
+pass update 2.2 - A pass extension that provides an easy flow for updating passwords.
 
 Usage:
     pass update [-h] [-n] [-l <s>] [-c | -p] [-p | -m]
@@ -163,18 +163,18 @@ sudo make install  # For OSX: make install PREFIX=/usr/local
 
 **Stable version**
 ```sh
-wget https://github.com/roddhjav/pass-update/releases/download/v2.1/pass-update-2.1.tar.gz
-tar xzf pass-update-2.1.tar.gz
-cd pass-update-2.1
+wget https://github.com/roddhjav/pass-update/releases/download/v2.2/pass-update-2.2.tar.gz
+tar xzf pass-update-2.2.tar.gz
+cd pass-update-2.2
 sudo make install  # For OSX: make install PREFIX=/usr/local
 ```
 
 [Releases][releases] and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
 You should check the key's fingerprint and verify the signature:
 ```sh
-wget https://github.com/roddhjav/pass-update/releases/download/v2.1/pass-update-2.1.tar.gz.asc
+wget https://github.com/roddhjav/pass-update/releases/download/v2.2/pass-update-2.2.tar.gz.asc
 gpg --recv-keys 06A26D531D56C42D66805049C5469996F0DF68EC
-gpg --verify pass-update-2.1.tar.gz.sig
+gpg --verify pass-update-2.2.tar.gz.sig
 ```
 
 ## Contribution
