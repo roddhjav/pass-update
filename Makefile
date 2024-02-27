@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# pass update - Passwords importer swiss army knife
+# pass update - Password Store Extension (https://www.passwordstore.org/)
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -7,20 +7,24 @@ EXT ?= update
 PREFIX ?= /usr
 DESTDIR ?=
 LIBDIR ?= ${PREFIX}/lib
+MANDIR ?= $(PREFIX)/share/man
 SYSTEM_EXTENSION_DIR ?= ${LIBDIR}/password-store/extensions
+BASHCOMPDIR ?= ${PREFIX}/share/bash-completion/completions
+ZSHCOMPDIR ?= ${PREFIX}/share/zsh/site-functions
 
 all:
 	@echo "pass-${EXT} is a shell script and does not need compilation, it can be simply executed."
-	@echo ""
 	@echo "To install it try \"make install\" instead."
-	@echo
 
-SHARE = $(shell find share/ -not -name "*.md" -not -name "*.py" -type f -printf "%P\n")
-install:
-	@install -Dm0755 ${EXT}.bash "${DESTDIR}${SYSTEM_EXTENSION_DIR}/${EXT}.bash"
-	@for file in ${SHARE}; do \
-		install -Dm0644 "share/$${file}" "${DESTDIR}/${PREFIX}/share/$${file}"; \
-    done;
+install_share: 
+	@echo install -Dm0644 share/bash-completion/completions/pass-${EXT} "${DESTDIR}${BASHCOMPDIR}/pass-${EXT}"
+	@echo install -Dm0644 share/zsh/site-functions/_pass-${EXT} "${DESTDIR}${ZSHCOMPDIR}/_pass-${EXT}"
+ifneq (,$(wildcard ./share/man/man1/pass-${EXT}.1))
+	@echo install -Dm0644 share/man/man1/pass-${EXT}.1 "${DESTDIR}${MANDIR}/man1/pass-${EXT}.1"
+endif
+
+install: install_share
+	@echo install -Dm0755 ${EXT}.bash "${DESTDIR}${SYSTEM_EXTENSION_DIR}/${EXT}.bash"
 	@echo "pass-${EXT} is installed succesfully"
 
 COVERAGE ?= false
@@ -30,7 +34,6 @@ T = $(sort $(wildcard tests/*.sh))
 export COVERAGE TMP
 tests: $(T)
 	@tests/results
-
 $(T):
 	@$@ $(PASS_TEST_OPTS)
 
@@ -75,6 +78,7 @@ release: tests lint docs commitdocs archive
 clean:
 	@rm -rf debian/.debhelper debian/debhelper* debian/pass-extension-${EXT}* \
 		tests/test-results/ tests/gnupg/random_seed debian/files *.deb \
-		*.buildinfo *.changes share/__pycache__
+		*.buildinfo *.changes share/__pycache__ \
+		share/man/man1/pass-${EXT}.1
 
 .PHONY: install tests $(T) lint docs archive debian release clean
