@@ -15,7 +15,7 @@ all:
 	@echo "To install it try \"make install\" instead."
 	@echo
 
-SHARE = $(shell find share/ -not -name "*.md" -type f -printf "%P\n")
+SHARE = $(shell find share/ -not -name "*.md" -not -name "*.py" -type f -printf "%P\n")
 install:
 	@install -Dm0755 ${EXT}.bash "${DESTDIR}${SYSTEM_EXTENSION_DIR}/${EXT}.bash"
 	@for file in ${SHARE}; do \

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keep-changelog].
 
+## [2.2.1] - 2024-02-26
+
+### Fixed
+
+- Ensure that `share/__main__.py` is not part of the distribution packaging. [#31](https://github.com/roddhjav/pass-update/issues/31)
+
 ## [2.2] - 2024-02-26
 
 ### Added
@@ -61,6 +67,7 @@ update an easier flow.
 * Initial release.
 
 
+[2.2.1]: https://github.com/roddhjav/pass-update/releases/tag/v2.2.1
 [2.2]: https://github.com/roddhjav/pass-update/releases/tag/v2.2
 [2.1]: https://github.com/roddhjav/pass-update/releases/tag/v2.1
 [2.0]: https://github.com/roddhjav/pass-update/releases/tag/v2.0
