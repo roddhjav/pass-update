@@ -8,7 +8,7 @@ import subprocess  # nosec
 import sys
 from datetime import datetime
 
-TITLE = 'pass-update'
+EXT = 'update'
 
 
 def git_add(path: str):
@@ -27,9 +27,9 @@ def debian_changelog(version: str):
     path = "debian/changelog"
     now = datetime.now()
     date = now.strftime('%a, %d %b %Y %H:%M:%S +0000')
-    template = f"""{TITLE} ({version}-1) stable; urgency=medium
+    template = f"""pass-{EXT} ({version}-1) stable; urgency=medium
 
-  * Release {TITLE} v{version}
+  * Release pass-{EXT} v{version}
 
  -- Alexandre Pujol <alexandre@pujol.io>  {date}
 
@@ -47,11 +47,11 @@ def makerelease():
     oldversion = sys.argv.pop()
     release = {
         'README.md': [
-            (f'pass-update-{oldversion}', f'pass-update-{version}'),
-            (f'pass update {oldversion}', f'pass update {version}'),
+            (f'pass-{EXT}-{oldversion}', f'pass-{EXT}-{version}'),
+            (f'pass {EXT} {oldversion}', f'pass {EXT} {version}'),
             (f'v{oldversion}', f'v{version}'),
         ],
-        'update.bash': [
+        f'{EXT}.bash': [
             (f'VERSION="{oldversion}"', f'VERSION="{version}"'),
         ],
     }
@@ -67,7 +67,7 @@ def makerelease():
             file.write(data)
 
         git_add(path)
-    git_commit(f"Release {TITLE} {version}")
+    git_commit(f"Release pass-{EXT} {version}")
 
 
 if __name__ == "__main__":
