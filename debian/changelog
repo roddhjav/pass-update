@@ -1,3 +1,9 @@
+pass-update (2.2.1-1) stable; urgency=medium
+
+  * Release pass-update v2.2.1
+
+ -- Alexandre Pujol <alexandre@pujol.io>  Wed, 28 Feb 2024 11:44:51 +0000
+
 pass-update (2.2-1) stable; urgency=medium
 
   * Release pass-update v2.2
