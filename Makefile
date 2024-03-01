@@ -70,6 +70,7 @@ debian:
 		--volume ${HOME}/.gnupg:/home/build/.gnupg ${BASEIMAGE} &> /dev/null || true
 	@docker exec --workdir=${BUILDIR} ${CTNAME} \
 		dpkg-buildpackage -b -d -us -ui --sign-key=${GPGKEY}
+	@docker exec --workdir=${BUILDIR} ${CTNAME} lintian
 	@docker exec ${CTNAME} bash -c 'mv ~/${PKGNAME}*.* ~/${PKGNAME}'
 	@docker exec ${CTNAME} bash -c 'mv ~/pass-${EXT}*.* ~/${PKGNAME}'
 
