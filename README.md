@@ -158,7 +158,7 @@ brew install pass-update
 ```sh
 git clone https://github.com/roddhjav/pass-update/
 cd pass-update
-sudo make install  # For OSX: make install PREFIX=/usr/local
+sudo make install  # For OSX: make install PREFIX=$(brew --prefix)
 ```
 
 **Stable version**
@@ -166,7 +166,7 @@ sudo make install  # For OSX: make install PREFIX=/usr/local
 wget https://github.com/roddhjav/pass-update/releases/download/v2.2.1/pass-update-2.2.1.tar.gz
 tar xzf pass-update-2.2.1.tar.gz
 cd pass-update-2.2.1
-sudo make install  # For OSX: make install PREFIX=/usr/local
+sudo make install  # For OSX: make install PREFIX=$(brew --prefix)
 ```
 
 [Releases][releases] and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
