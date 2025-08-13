@@ -121,6 +121,7 @@ pass update --include '^[0-9]+$' /
 
 **Requirements**
 * `pass 1.7.0` or greater.
+* `bash 4.0` or greater. 
 
 **ArchLinux**
 
