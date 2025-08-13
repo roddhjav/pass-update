@@ -3,14 +3,29 @@
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+UNAME := $(shell uname)
+
 EXT ?= update
-PREFIX ?= /usr
+ifeq ($(UNAME), Darwin)
+    BREW_PREFIX := $(shell command -v brew >/dev/null 2>&1 && brew --prefix)
+    ifneq ($(BREW_PREFIX),)
+        PREFIX ?= $(BREW_PREFIX)
+    else
+        PREFIX ?= /usr/local
+    endif
+else
+    PREFIX ?= /usr
+endif
 DESTDIR ?=
-LIBDIR ?= ${PREFIX}/lib
+LIBDIR ?= $(PREFIX)/lib
 MANDIR ?= $(PREFIX)/share/man
 SYSTEM_EXTENSION_DIR ?= ${LIBDIR}/password-store/extensions
-BASHCOMPDIR ?= ${PREFIX}/share/bash-completion/completions
-ZSHCOMPDIR ?= ${PREFIX}/share/zsh/site-functions
+ifeq ($(UNAME), Darwin)
+    BASHCOMPDIR ?= $(PREFIX)/etc/bash_completion.d
+else
+    BASHCOMPDIR ?= $(PREFIX)/share/bash-completion/completions
+endif
+ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
 
 all:
 	@echo "pass-${EXT} is a shell script and does not need compilation, it can be simply executed."
