@@ -143,13 +143,13 @@ test_password_is_not() {
 }
 
 test_cleanup() {
-	rm -rf "$TMP"
-	mkdir -p "$TMP"
+	rm -rf "$PASSWORD_STORE_DIR"
+	mkdir -p "$PASSWORD_STORE_DIR"
 }
 
 test_export() {
 	export testname="$1"
-	export PASSWORD_STORE_DIR="$TMP/${testname}-store"
+	export PASSWORD_STORE_DIR="${SHARNESS_TRASH_DIRECTORY}/${testname}-store"
 	export PASSWORD_STORE_CLIP_TIME="1"
 	export PATH="$TESTS_HOME:$PATH"
 	export EDITOR="fake-editor"
